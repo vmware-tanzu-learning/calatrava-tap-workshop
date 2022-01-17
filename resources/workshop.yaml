@@ -8,10 +8,10 @@ spec:
   vendor: eduk8s.io
   difficulty: beginner
   duration: 15m
-  url: https://github.com/eduk8s/calatrava-tap-workshop
+  url: https://github.com/ndwinton/calatrava-tap-workshop
   content:
     #image: quay.io/eduk8s/calatrava-tap-workshop:master
-    files: github.com/eduk8s/calatrava-tap-workshop
+    files: github.com/ndwinton/calatrava-tap-workshop
   session:
     namespaces:
       budget: small
