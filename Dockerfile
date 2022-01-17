@@ -2,7 +2,7 @@ FROM quay.io/eduk8s/base-environment:master
 
 # Allow install as non-root user
 USER root
-RUN chmod g+w /usr/local/bin
+RUN echo "%root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER 1001
 
