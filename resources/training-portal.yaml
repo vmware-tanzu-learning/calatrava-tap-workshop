@@ -6,6 +6,8 @@ spec:
   portal:
     registration:
       type: anonymous
+    updates:
+      workshop: true
   workshops:
   - name: calatrava-tap-workshop
     capacity: 1

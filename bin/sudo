@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Fake sudo to allow TAP install scripts to run
+exec "$@"

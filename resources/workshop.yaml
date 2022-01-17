@@ -7,10 +7,10 @@ spec:
   description: A sample workshop using Markdown
   vendor: eduk8s.io
   difficulty: beginner
-  duration: 15m
+  duration: 60m
   url: https://github.com/ndwinton/calatrava-tap-workshop
   content:
-    #image: quay.io/eduk8s/calatrava-tap-workshop:master
+    image: harbor-repo.vmware.com/nwinton/calatrava-tap-workshop:latest
     files: "github.com/ndwinton/calatrava-tap-workshop?ref=main"
   session:
     namespaces:
