@@ -11,7 +11,7 @@ spec:
   url: https://github.com/ndwinton/calatrava-tap-workshop
   content:
     #image: quay.io/eduk8s/calatrava-tap-workshop:master
-    files: github.com/ndwinton/calatrava-tap-workshop
+    files: github.com/ndwinton/calatrava-tap-workshop#main
   session:
     namespaces:
       budget: small
