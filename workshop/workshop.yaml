@@ -5,4 +5,5 @@ modules:
     - 01-workshop-overview
     - 02-prerequisites
     - 03-cluster-creation
+    - 04-running-terraform
     - workshop-summary

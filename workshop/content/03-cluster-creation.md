@@ -35,15 +35,27 @@ In particular, it uses vSphere 7.0 with Tanzu (TKGs) to provision
 clusters.
 So you need to choose a Nimbus instance (vCenter) on which to create
 yor cluster.
-That is set at the line beginning with `nimbus = ...`
+That is set at the line beginning with `nimbus = ...`.
+You will see a list of possible values, such as `wdc-08-vc08` in the comments just above this line.
+Pick one of them and replace the `REPLACE-ME` text with that
+value.
 
-#### Go to the line
+#### Find the line and replace the placeholder
 
 ```editor:select-matching-text
 file: ~/terraform/tap.tf
-text: "nimbus\s+=\s+\"(.*)\""
+text: nimbus\s+=\s+\"(REPLACE-ME)\"
 isRegex: true
 group: 1
 ```
+
+You should not have to change anything else in the file in order to
+provision a basic cluster suitable to run TAP, but if you want
+to tune the amount of resources or other parameters of your cluster
+you can do so by changing elements of the `pacific_guestcluster`
+resource.
+
+Once you have made and saved any changes you can move on to
+running Terraform.
 
 
