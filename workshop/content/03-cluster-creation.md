@@ -37,10 +37,13 @@ So you need to choose a Nimbus instance (vCenter) on which to create
 yor cluster.
 That is set at the line beginning with `nimbus = ...`
 
+#### Go to the line
+
 ```editor:select-matching-text
 file: ~/terraform/tap.tf
 text: "nimbus\s+=\s+\"(.*)\""
 isRegex: true
 group: 1
 ```
+
 
