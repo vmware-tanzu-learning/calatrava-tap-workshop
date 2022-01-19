@@ -1,5 +1,3 @@
-# Prerequisites
-
 Before you can begin the installation you will need to have
 accounts for the following two systems:
 
