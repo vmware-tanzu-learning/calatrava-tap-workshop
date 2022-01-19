@@ -1,12 +1,12 @@
 modules:
-    workshop-overview:
+    01-workshop-overview:
         name: Workshop Overview
-        exit_sign: Setup Environment
-    setup-environment:
-        name: Setup Environment
-        exit_sign: Start Workshop
-    exercises/01-sample-content:
-        name: Sample Content
+        exit_sign: Prerequisites
+    02-prerequisites:
+        name: Prerequisites
+        exit_sign: Cluster Creation
+    03-cluster-creation:
+        name: Cluster Creation
     workshop-summary:
         name: Workshop Summary
         exit_sign: Finish Workshop

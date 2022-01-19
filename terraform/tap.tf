@@ -24,7 +24,7 @@ resource "pacific_nimbus_namespace" "ns" {
 
   # Pick one of sc2-01-vc16, sc2-01-vc17, wdc-08-vc04, wdc-08-vc05, wdc-08-vc07, wdc-08-vc08
   # Check slack channel #calatrava-notice for known issues
-  nimbus             = "wdc-08-vc04"
+  nimbus             = "wdc-08-vc05"
   nimbus_config_file = "/mts/git/nimbus-configs/config/staging/wcp.json"
 }
 

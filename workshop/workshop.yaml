@@ -2,7 +2,7 @@ name: Markdown Sample
 
 modules:
     activate:
-    - workshop-overview
-    - prerequisites
-    - exercises/01-sample-content
+    - 01-workshop-overview
+    - 02-prerequisites
+    - 03-cluster-creation
     - workshop-summary

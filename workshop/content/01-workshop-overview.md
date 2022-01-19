@@ -1,4 +1,4 @@
-# TAP on Calatrava
+## TAP on Calatrava
 
 This workshop guides you through the process of installing Tanzu
 Application Platform (TAP) on
