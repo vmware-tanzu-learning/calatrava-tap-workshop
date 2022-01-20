@@ -7,7 +7,7 @@ modules:
         exit_sign: Cluster Creation
     03-cluster-creation:
         name: Cluster Creation
-        exit_sign: Rinning Terraform
+        exit_sign: Running Terraform
     04-running-terraform:
         name: Running Terraform
     workshop-summary:
