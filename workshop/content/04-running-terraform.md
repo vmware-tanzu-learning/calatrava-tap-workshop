@@ -77,7 +77,7 @@ This name is constructed from the username that you supplied
 at the prompt and another variable `nimbus_nsname` set near the
 top of the `tap.tf` file.
 
-#### A note on namespaces
+#### Click for a note on namespaces ...
 ```section:begin
 title: Note on namespaces
 ```
@@ -98,7 +98,6 @@ title: Note on namespaces
 ---
 ```section:end
 ```
-
 
 The creation process will then continue, showing more messages,
 as follows:
@@ -122,7 +121,7 @@ local_file.gc_kubeconfig: Creation complete after 0s [id=2e5617db333871599f9fcdc
 Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
 ```
 
-Again, you can see that this is likely to take a number of minutes.
+Again, this is likely to take a number of minutes.
 At the end of the process you will see that a number of files
 have been created in the `terraform` directory:
 
@@ -140,12 +139,15 @@ cluster used to control and manage your "guest" cluster.
 * `gc.kubeconfig` &mdash; the configuration giving you full admin access
 to your guest cluster, where you will install TAP.
 
-All of these files are crucial for your future use of the cluster so,
-before you go any further, we will make a backup for you to download.
+All of these files, along with your `tap.tf` file, are crucial for
+your future use of the cluster so, before you go any further, we will
+make a backup for you to download.
+(This will use the second terminal window)
 
 ```terminal:execute
-command: zip ~/tap-terraform.zip terraform.tfstate sv.kubeconfig gc.kubeconfig
+command: cd ~/terraform && zip ~/tap-terraform.zip tap.tf terraform.tfstate sv.kubeconfig gc.kubeconfig
 clear: true
+session: 2
 ```
 
 Now you should download that zip file and keep it safe!
