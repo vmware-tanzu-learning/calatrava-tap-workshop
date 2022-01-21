@@ -66,9 +66,6 @@ Harbor registry this might be something like `harbor-repo.vmware.com/your-userna
 The `REG_USERNAME` and `REG_PASSWORD` are your credentials for that
 registry.
 
-```section:end
-```
-
 ```editor:select-matching-text
 file: ~/tap-setup-scripts/envrc-template
 text: ^export REG.*=(.*)
@@ -149,6 +146,9 @@ Now you can run the setup script:
 
 ```execute
 KUBECONFIG=~/terraform/gc.kubeconfig ./setup-tap.sh
+```
+
+```section:end
 ```
 
 ## The [Red Pill](https://www.youtube.com/watch?v=zE7PKRjrid4): Official installation documentation
@@ -247,3 +247,6 @@ REASON:
 
 If the status is still shown as "Reconciling" then wait for a minute
 or two before checking again.
+
+```section:end
+```
