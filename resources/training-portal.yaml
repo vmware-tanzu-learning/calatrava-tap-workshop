@@ -10,6 +10,6 @@ spec:
       workshop: true
   workshops:
   - name: calatrava-tap-workshop
-    capacity: 1
-    expires: 60m
-    orphaned: 5m
+    capacity: 5
+    expires: 120m
+    orphaned: 30m
