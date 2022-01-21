@@ -219,7 +219,7 @@ They should output messages similar to this:
 2:14:29PM: ---- waiting complete [12/12 done] ----
 ```
 
-If they appear to hang the it's likely that you missed the step
+If they appear to hang then it's likely that you missed the step
 at the start of this page to disable the pod security policy.
 
 Assuming that those stages succeed you will see a few more
@@ -263,6 +263,13 @@ CONDITIONS:              [{ReconcileSucceeded True  }]
 USEFUL-ERROR-MESSAGE:    
 ```
 
+### What if there were problems?
+
+```section:begin
+name: blue-problems
+title: Troubleshooting
+```
+
 If the status is `Reconcile succeeded` then the core package
 installation has completed successfully, and the
 script will proceed with the final parts of the setup.
@@ -275,6 +282,10 @@ It is fine to do this multiple times if necessary.
 
 ```execute
 ./setup.sh --skip-init
+```
+
+```section:end
+name: blue-problems
 ```
 
 Finally the script will print out some useful information
@@ -341,7 +352,7 @@ You can do this by running one more script:
 
 It may take a little while for DNS changes to propagate or you
 may need to flush your DNS cache, but if you wait a few minutes
-you should then be able to access yoir TAP GUI via the URL
+you should then be able to access your TAP GUI via the URL
 shown in the script output, which will be something like:
 
 `http://gui.<your-namespace>.calatrava.vmware.com:7000`
