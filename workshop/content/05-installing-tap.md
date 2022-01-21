@@ -263,13 +263,6 @@ CONDITIONS:              [{ReconcileSucceeded True  }]
 USEFUL-ERROR-MESSAGE:    
 ```
 
-### What if there were problems?
-
-```section:begin
-name: blue-problems
-title: Troubleshooting
-```
-
 If the status is `Reconcile succeeded` then the core package
 installation has completed successfully, and the
 script will proceed with the final parts of the setup.
@@ -280,12 +273,8 @@ but with an added option to skip the early parts which have
 completely successfully already.
 It is fine to do this multiple times if necessary.
 
-```execute
-./setup.sh --skip-init
 ```
-
-```section:end
-name: blue-problems
+./setup.sh --skip-init
 ```
 
 Finally the script will print out some useful information
