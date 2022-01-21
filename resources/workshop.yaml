@@ -5,14 +5,14 @@ metadata:
 spec:
   title: Installing TAP on Calatrava
   description: |
-    This workshop guides you through the process of Installing
+    This workshop guides you through the process of installing
     Tanzu Application Platform on VMware's internal Calatrava
     infrastructure. At the end of the workshop you will have a
     Kubernetes cluster with TAP installed that you can take away
     and use.
-  vendor: eduk8s.io
+  vendor: tanzu.vmware.com
   difficulty: beginner
-  duration: 60m
+  duration: 120m
   url: https://github.com/ndwinton/calatrava-tap-workshop
   content:
     image: harbor-repo.vmware.com/nwinton/calatrava-tap-workshop:latest
@@ -24,8 +24,6 @@ spec:
       terminal:
         enabled: true
         layout: split
-      console:
-        enabled: true
       editor:
         enabled: true
       files:
