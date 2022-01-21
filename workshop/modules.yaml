@@ -12,7 +12,7 @@ modules:
         name: Running Terraform
         exit_sign: Installing TAP
     05-installing-tap:
-        name: Running Terraform
+        name: Installing TAP
     workshop-summary:
         name: Workshop Summary
         exit_sign: Finish Workshop
