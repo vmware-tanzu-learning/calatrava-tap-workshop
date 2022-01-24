@@ -578,7 +578,7 @@ package installation, as it describes in the documentation:
 cd ~/tap
 
 tanzu package install tap -p tap.tanzu.vmware.com -v 1.0.0 \
-  --values-file tap-values.yml -n tap-install
+  --values-file tap-values.yaml -n tap-install
 ```
 
 If the command times out, as may happen, it is safe to re-run it.
