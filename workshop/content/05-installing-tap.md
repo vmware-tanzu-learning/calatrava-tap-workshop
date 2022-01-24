@@ -342,10 +342,6 @@ So, you should be able to access the following URLs
 * `http://*.learn.<namespace>.calatrava.vmware.com` for Learning Center (if
 you deployed it).
 
-## Kubernetes namespace setup
-
-TODO
-
 ## Saving and modifying your configuration
 
 Congratulations!
@@ -613,6 +609,10 @@ documentation page.
 As a result, you should be to access the GUI at
 `http://tap-gui.<namespace>.calatrava.vmware.com`.
 
+## Kubernetes namespace setup
+
+TODO
+
 ## Saving and modifying your configuration
 
 Congratulations!
@@ -627,7 +627,6 @@ your `tap-values.yaml` file and then reapplying it at some time
 in the future using the `tanzu package installed update` command.
 However, this means that you should keep that file safe.
 You can use the link below to download it now.
-```
 
 ```files:download-file
 path: tap/tap-values.yaml
