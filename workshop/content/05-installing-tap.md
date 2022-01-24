@@ -451,14 +451,10 @@ This means that you only need to execute step 4.
 
 As you are going to need to set up several other environment variables
 during the installation process, in addition to the ones shown in this
-step, you might like to put them all in a single definition file.
-You will find a suitable file in `~/tap/environment.sh`.
-Once you have updated the values you can load this into your session
-by running:
-
-```
-source ~/tap/environment.sh
-```
+step, this workshop assumes that you will put them all in a single
+definition file.
+You will find a suitable file in `~/tap/environment.sh`, which you
+should edit now.
 
 ```editor:select-matching-text
 file: ~/tap/environment.sh
@@ -467,11 +463,20 @@ isRegex: true
 group: 1
 ```
 
-However you set the `INSTALL_*` environment variables, you should now
-run the install script:
+When you have saved that, you should load it into your current
+session:
+
+```execute
+```
+source ~/tap/environment.sh
+```
+
+
+Now you can run the cluster essentials install script:
 
 ```execute
 cd $HOME/tanzu-cluster-essentials
+
 ./install.sh
 ```
 

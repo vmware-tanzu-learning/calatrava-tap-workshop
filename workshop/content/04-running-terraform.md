@@ -118,7 +118,7 @@ local_file.gc_kubeconfig: Creation complete after 0s [id=2e5617db333871599f9fcdc
 Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
 ```
 
-Again, this is likely to take a number of minutes.
+Again, this is likely to take several minutes.
 At the end of the process you will see that a number of files
 have been created in the `terraform` directory:
 

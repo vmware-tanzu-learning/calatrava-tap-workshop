@@ -9,10 +9,12 @@ getting your first app up and running.
 
 The `#tap-assist` Slack channel is your go-to place for questions
 and queries about TAP.
+For questions about Calatrava it's `#calatrava`.
 
 The
 [Engineering Wiki TAP page](https://confluence.eng.vmware.com/pages/viewpage.action?spaceKey=CNA&title=Tanzu+Application+Platform)
 contains a wealth of links to other resources.
+
 
 ## Happy TAP-ing!
 
