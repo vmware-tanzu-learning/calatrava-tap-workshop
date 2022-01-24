@@ -90,6 +90,11 @@ top of the `tap.tf` file.
 > terraform apply -var nimbus_nsname=<some-other-suffix>
 > ```
 >
+> Beware that if you create the same namespace on a different
+> Nimbus instance this will cause problems with assigning DNS
+> names to your different TAP environments.
+> For this reason it is best to make the namespace uniques across
+> **all** instances.
 
 The creation process will then continue, showing more messages,
 as follows:
