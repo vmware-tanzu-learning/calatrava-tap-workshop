@@ -1,5 +1,5 @@
-Now you have your TAP installation on Calatrava, you are going to
-want to use it.
+Now you have your TAP installation on Calatrava, what should you
+be doing next?
 
 The
 [Getting started with the Tanzu Application Platform](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-getting-started.html)

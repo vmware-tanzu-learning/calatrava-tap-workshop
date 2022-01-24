@@ -362,23 +362,12 @@ Again, if you used the template configuration file, the GUI will have
 been set up using the "Ingress Method" described in the
 [Accessing Tanzu Application Platform GUI](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-tap-gui-accessing-tap-gui.html)
 documentation page.
+There should be nothing more for you to do.
 
-## Saving and modifying your configuration
-
-You can make changes to your TAP installation by editing
-your `tap-values.yaml` file and then reapplying it at some time
-in the future using the `tanzu package installed update` command.
-However, this means that you should keep that file safe.
-You can use the link below to download it now.
-
-```files:download-file
-path: tap/tap-values.yaml
-```
-
-# Test your TAP installation
+## Test your TAP installation
 
 Congratulations!
-Whichever path you took, you should now have a fully functioning TAP environment of your own on Calatrava to use and experiment with.
+You should now have a fully functioning TAP environment of your own on Calatrava to use and experiment with.
 
 You can demonstrate this by visiting the TAP GUI which, if you've
 taken the recommended settings in the setup, will be at
@@ -388,6 +377,18 @@ You can see the actual value by using this command:
 
 ```execute
 grep baseUrl: ~/tap/tap-values.yaml
+```
+
+# Saving and modifying your configuration
+
+You can make changes to your TAP installation by editing
+your `tap-values.yaml` file and then reapplying it at some time
+in the future using the `tanzu package installed update` command.
+However, this means that you should keep that file safe.
+You can use the link below to download it now.
+
+```files:download-file
+path: tap/tap-values.yaml
 ```
 
 Once you've done that it's time to move on to the final part
