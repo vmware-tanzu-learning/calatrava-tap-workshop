@@ -1,5 +1,3 @@
-## TAP on Calatrava
-
 This workshop guides you through the process of installing Tanzu
 Application Platform (TAP) on
 [Calatrava](https://confluence.eng.vmware.com/display/VCAF/Project+Calatrava+-+Internal+Hybrid+Cloud).

@@ -8,8 +8,6 @@ need here.
 
 So, start off by going to the `terraform` sub-directory.
 
-#### Click to execute
-
 ```execute
 cd ~/terraform
 ls -l
@@ -21,8 +19,6 @@ If you're comfortable at the Linux command line you can use
 `vim` or `nano` to examine it, but the next few steps will walk
 you through possible modifications you might want to make
 using the built-in workshop editor.
-
-#### Click to open the file
 
 ```editor:open-file
 file: ~/terraform/tap.tf
@@ -39,8 +35,6 @@ That is set at the line beginning with `nimbus = ...`.
 You will see a list of possible values, such as `wdc-08-vc08` in the comments just above this line.
 Pick one of them and replace the `REPLACE-ME` text with that
 value.
-
-#### Find the line and replace the placeholder
 
 ```editor:select-matching-text
 file: ~/terraform/tap.tf

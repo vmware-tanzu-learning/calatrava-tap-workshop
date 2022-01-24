@@ -40,7 +40,7 @@ supply_chain: basic
 ootb_supply_chain_basic:
   service_account: default
   registry:
-    server: "${REGISTRY_HOST}"
+    server: "${REGISTRY_SERVER}"
     repository: "${REGISTRY_PATH}"
   gitops:
     ssh_secret: ""

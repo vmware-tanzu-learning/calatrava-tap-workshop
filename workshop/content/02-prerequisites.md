@@ -4,7 +4,7 @@ accounts for the following two systems:
 * A container registry
 * The Tanzu Network
 
-## Container registry
+# Container registry
 
 You will need a login for a container registry.
 [DockerHub](https://hub.docker.com/) would be fine, but the
@@ -20,7 +20,7 @@ The link below will open that page in a new window.
 url: https://confluence.eng.vmware.com/display/AO/Harbor+as+a+Service
 ```
 
-## Tanzu Network
+# Tanzu Network
 
 You will also need an account (with an `@vmware.com` or `@pivotal.io` address) on the
 [Tanzu Network](https://network.tanzu.vmware.com).

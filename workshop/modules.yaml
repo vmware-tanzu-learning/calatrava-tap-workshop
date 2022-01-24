@@ -13,6 +13,10 @@ modules:
         exit_sign: Installing TAP
     05-installing-tap:
         name: Installing TAP
-    workshop-summary:
-        name: Workshop Summary
+        exit_sign: Local setup
+    06-local-setup:
+        name: Installing TAP
+        exit_sign: Next Steps
+    07-next-steps:
+        name: Next Steps
         exit_sign: Finish Workshop

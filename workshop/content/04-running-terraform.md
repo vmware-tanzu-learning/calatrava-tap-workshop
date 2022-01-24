@@ -77,13 +77,9 @@ This name is constructed from the username that you supplied
 at the prompt and another variable `nimbus_nsname` set near the
 top of the `tap.tf` file.
 
-#### Click for a note on namespaces ...
-```section:begin
-title: Note on namespaces
-```
 
----
-
+> **A note on namespaces**
+>  
 > If you want to create another cluster on the same Nimbus instance
 > using this script, you will have to create a new namespace.
 > You can either do that by modifying the default value of the
@@ -94,10 +90,6 @@ title: Note on namespaces
 > terraform apply -var nimbus_nsname=<some-other-suffix>
 > ```
 >
-
----
-```section:end
-```
 
 The creation process will then continue, showing more messages,
 as follows:

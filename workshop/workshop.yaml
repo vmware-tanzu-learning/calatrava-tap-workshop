@@ -7,4 +7,5 @@ modules:
     - 03-cluster-creation
     - 04-running-terraform
     - 05-installing-tap
-    - workshop-summary
+    - 06-local-setup
+    - 07-next-steps

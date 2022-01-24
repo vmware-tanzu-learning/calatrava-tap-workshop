@@ -43,7 +43,7 @@ the installation, then take this route.
 The second path will take you through the official installation
 documentation.
 This is not difficult but will involve more steps and choices.
-It will, however, possibly give you more control and flexibility.
+It will, however, ultimately give you more control and flexibility.
 
 # The [Blue Pill](https://en.wikipedia.org/wiki/Red_pill_and_blue_pill): Unofficial set-up script
 
@@ -344,12 +344,10 @@ you deployed it).
 
 ## Saving and modifying your configuration
 
-Congratulations!
-You should now have a fully functioning TAP environment of your
-own to use and experiment with.
+Your TAP installation is now finished.
 However, it's quite possible that you will want to modify
-the configuration in future so before you finish it is time
-to make a backup of your configuration.
+the configuration in future so before you leave this workshop
+it is time to make a backup of your configuration.
 
 As you may have seen, the installation script creates a number of
 YAML files in the current directory.
@@ -380,9 +378,6 @@ session: 2
 ```files:download-file
 path: tap-setup.zip
 ```
-
-Once you've done that it's time to move on to the final part
-of this workshop.
 
 ```section:end
 name: blue
@@ -595,6 +590,115 @@ Followed by:
 tanzu package installed list -A
 ```
 
+### Set up developer namespaces
+
+It is easy to miss this step as it it linked out from the text
+after the package installation.
+However, before you can use TAP to create any workloads you
+must follow the steps to
+[set up developer namespaces](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install-components.html#setup).
+
+Using the values provided in `environment.sh` a possible set of
+commands to set this up for the `default` Kubernetes namespace
+would be as follows:
+
+```execute
+tanzu secret registry add registry-credentials \
+  --server "${REGISTRY_SERVER}" \
+  --username "${REGISTRY_USERNAME}" \
+  --password "${REGISTRY_PASSWORD}" \
+  --namespace default
+```
+
+```execute
+cat <<EOF | kubectl -n default apply -f -
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-registry
+  annotations:
+    secretgen.carvel.dev/image-pull-secret: ""
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: e30K
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: default
+secrets:
+  - name: registry-credentials
+imagePullSecrets:
+  - name: registry-credentials
+  - name: tap-registry
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: default
+rules:
+- apiGroups: [source.toolkit.fluxcd.io]
+  resources: [gitrepositories]
+  verbs: ['*']
+- apiGroups: [source.apps.tanzu.vmware.com]
+  resources: [imagerepositories]
+  verbs: ['*']
+- apiGroups: [carto.run]
+  resources: [deliverables, runnables]
+  verbs: ['*']
+- apiGroups: [kpack.io]
+  resources: [images]
+  verbs: ['*']
+- apiGroups: [conventions.apps.tanzu.vmware.com]
+  resources: [podintents]
+  verbs: ['*']
+- apiGroups: [""]
+  resources: ['configmaps']
+  verbs: ['*']
+- apiGroups: [""]
+  resources: ['pods']
+  verbs: ['list']
+- apiGroups: [tekton.dev]
+  resources: [taskruns, pipelineruns]
+  verbs: ['*']
+- apiGroups: [tekton.dev]
+  resources: [pipelines]
+  verbs: ['list']
+- apiGroups: [kappctrl.k14s.io]
+  resources: [apps]
+  verbs: ['*']
+- apiGroups: [serving.knative.dev]
+  resources: ['services']
+  verbs: ['*']
+- apiGroups: [servicebinding.io]
+  resources: ['servicebindings']
+  verbs: ['*']
+- apiGroups: [services.apps.tanzu.vmware.com]
+  resources: ['resourceclaims']
+  verbs: ['*']
+- apiGroups: [scanning.apps.tanzu.vmware.com]
+  resources: ['imagescans', 'sourcescans']
+  verbs: ['*']
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: default
+subjects:
+  - kind: ServiceAccount
+    name: default
+
+EOF
+```
+
 ### Configure LoadBalancer for Contour ingress
 
 If you used the template `tap-values.yaml` file supplied above
@@ -609,18 +713,7 @@ documentation page.
 As a result, you should be to access the GUI at
 `http://tap-gui.<namespace>.calatrava.vmware.com`.
 
-## Kubernetes namespace setup
-
-TODO
-
 ## Saving and modifying your configuration
-
-Congratulations!
-You should now have a fully functioning TAP environment of your
-own to use and experiment with.
-However, it's quite possible that you will want to modify
-the configuration in future so before you finish it is time
-to make a backup of your configuration.
 
 You can make changes to your TAP installation by editing
 your `tap-values.yaml` file and then reapplying it at some time
@@ -632,9 +725,18 @@ You can use the link below to download it now.
 path: tap/tap-values.yaml
 ```
 
-Once you've done that it's time to move on to the final part
-of this workshop.
-
 ```section:end
 name: red
 ```
+
+# Test your TAP installation
+
+Congratulations!
+Whichever path you took, you should now have a fully functioning TAP environment of your own on Calatrava to use and experiment with.
+
+You can demonstrate this by visiting the TAP GUI which, if you've
+taken the recommended settings in the setup, will be at
+`http://tap-gui.<namespace>.calatrava.vmware.com`.
+
+Once you've done that it's time to move on to the final part
+of this workshop.

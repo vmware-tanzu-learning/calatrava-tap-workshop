@@ -16,7 +16,7 @@ export CALATRAVA_NAMESPACE="<replace-this>"
 export REGISTRY_USERNAME="<replace-this>"
 export REGISTRY_PASSWORD="<replace-this>"
 export REGISTRY="harbor-repo.vmware.com/${REGISTRY_USERNAME}/tap"
-export REGISTRY_HOST="harbor-repo.vmware.com"
+export REGISTRY_SERVER="harbor-repo.vmware.com"
 export REGISTRY_PATH="${REGISTRY_USERNAME}/tap"
 
 ###
