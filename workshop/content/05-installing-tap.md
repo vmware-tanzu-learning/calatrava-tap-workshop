@@ -6,7 +6,7 @@ need to perform, which we will walk through here.
 The full process for installing TAP is described in the
 [official documentation](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install-intro.html).
 Some of the steps, particularly downloading and installing
-the Tanzu CLI and the prerequisite software has already been done
+the Tanzu CLI and the prerequisite software have already been done
 for you, so now it's just the steps that depend on having your
 Kubernetes cluster available.
 
@@ -45,14 +45,14 @@ documentation.
 This is not difficult but will involve more steps and choices.
 It will, however, possibly give you more control and flexibility.
 
-## The [Blue Pill](https://en.wikipedia.org/wiki/Red_pill_and_blue_pill): Unofficial set-up script
+# The [Blue Pill](https://en.wikipedia.org/wiki/Red_pill_and_blue_pill): Unofficial set-up script
 
 ```section:begin
 name: blue
 title: I just want to get it installed quickly
 ```
 
-### Download the scripts
+## Download the scripts
 
 The first step is to download the latest version of the scripts
 from a public GitHub repository.
@@ -64,7 +64,7 @@ cd $HOME
 git clone https://github.com/ndwinton/tap-setup-scripts
 ```
 
-### Configure the environment
+## Configure the environment
 
 Within the cloned `tap-setup-scripts` directory there is a file,
 `envrc-template` which contains a set of environment variable
@@ -157,7 +157,7 @@ isRegex: true
 group: 1
 ```
 
-### Run the setup script
+## Run the setup script
 
 When you have made all of the changes to the `envrc-template` file
 you need next to load those definitions into your environment.
@@ -175,6 +175,11 @@ Now you can run the setup script:
 ```execute
 ./setup-tap.sh
 ```
+
+By default, the script will install the latest publicly available
+release of TAP.
+If you want to install a specific version you can add an extra
+option of `--version <version-number>`.
 
 The script is quite verbose and there will be a large amount of text
 printed out initially relating to the options that you have set
@@ -326,27 +331,22 @@ showing as having a status of `Reconcile succeeded`.
 
 ```
 
-### Completing the DNS setup
+## DNS Setup
 
-Much of the DNS setup for your TAP environment will have been done
-automatically as part of the Calatrava namespace creation and the
-TAP installation.
-There is, however, one final part to do, which handles the
-setup for the TAP GUI.
-You can do this by running one more script:
+DNS configuration for the system ingress is taken care of
+automatically by Calatrava.
+So, you should be able to access the following URLs
 
-```execute
-./calatrava-dns-setup.sh
-```
+* `http://tap-gui.<namespace>.calatrava.vmware.com` for the TAP GUI
+* `http://*.apps.<namespace>.calatrava.vmware.com` for deployed workloads
+* `http://*.learn.<namespace>.calatrava.vmware.com` for Learning Center (if
+you deployed it).
 
-It may take a little while for DNS changes to propagate or you
-may need to flush your DNS cache, but if you wait a few minutes
-you should then be able to access your TAP GUI via the URL
-shown in the script output, which will be something like:
+## Kubernetes namespace setup
 
-`http://gui.<your-namespace>.calatrava.vmware.com:7000`
+TODO
 
-### Saving and modifying your configuration
+## Saving and modifying your configuration
 
 Congratulations!
 You should now have a fully functioning TAP environment of your
@@ -376,7 +376,7 @@ probably want to save your `envrc-template` and `tap-values.yaml`
 files.
 
 ```terminal:execute
-command: cd ~/tap-setup-scripts && zip ~/tap-setup.zip envrc-template tap-values.yaml
+command: cd ~/tap-setup-scripts && zip ~/tap-setup.zip envrc-template *.yaml
 clear: true
 session: 2
 ```
@@ -392,16 +392,82 @@ of this workshop.
 name: blue
 ```
 
-## The [Red Pill](https://www.youtube.com/watch?v=zE7PKRjrid4): Official installation documentation
+# The [Red Pill](https://www.youtube.com/watch?v=zE7PKRjrid4): Official installation documentation
 
 ```section:begin
 name: red
 title: Walk me through the install process
 ```
 
-# WORK IN PROGRESS - NOT COMPLETE
+In this path you will follow the official installation instructions.
+In order to keep things as straightforward as possible, this workshop
+is going to make some simplifying assumptions, which will be
+described at appropriate points.
 
-## Setting up environment variables
+If those assumptions do not meet your needs then you will have to make
+the necessary adjustments as you go through the documentation.
+
+## Part I: Prerequisites
+
+The installation instructions are broken down into two main sections.
+In order to avoid repeating things unnecessarily here, you will need
+to keep the appropriate part of the documentation open, so open
+the first part now:
+
+```dashboard:open-url
+url: https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install-general.html
+```
+This deals with setting up some pre-requisites, accepting EULAs
+and installing the Tanzu CLI.
+Some parts of this have already been done for you in this workshop environment and, as a VMware employee you should not have to
+accept the EULAs.
+
+### Prerequisites
+
+Please read through the _Prerequisites_ section.
+Some particular points to note are:
+
+* _DNS Records_ will be taken care of by Calatrava and specific details
+of how to configure this will be described later.
+* For the _Tanzu Application Platform GUI_ this workshop will assume
+that you are using a publicly accessible Git respository for your
+catalog, and an in-memory database.
+* The Calatrava cluster is created using TKG, which is not (at the time
+of writing) officially supported according to the _Kubernetes cluster
+requirements_.
+It does, however, work.
+* Strictly, the Calatrava configuration provisioned earlier in
+this workshop does not have the 70GB of disk described in
+the _Resource requirements_.
+You can increase this if necessary, depending on how long-lived you
+wish your cluster to be.
+
+### Accept the EULAs
+
+The _Accept the EULAs_ section should be irrelevant for VMware
+employees, as acceptance happens automatically at download.
+However, you can go through the process if you wish to understand
+the customer experience.
+
+### Install Cluster Essentials for VMware Tanzu
+
+In the _Install Cluster Essentials for VMware Tanzu_ section some
+of the work has already been done for you in the workshop environment.
+The file has already been downloaded and expanded into
+`tanzu-cluster-essentials` in your your home directory, and the `kapp`
+tool is already installed.
+This means that you only need to execute step 4.
+
+As you are going to need to set up several other environment variables
+during the installation process, in addition to the ones shown in this
+step, you might like to put them all in a single definition file.
+You will find a suitable file in `~/tap/environment.sh`.
+Once you have updated the values you can load this into your session
+by running:
+
+```
+source ~/tap/environment.sh
+```
 
 ```editor:select-matching-text
 file: ~/tap/environment.sh
@@ -410,87 +476,165 @@ isRegex: true
 group: 1
 ```
 
-## Configure access to your cluster
-
-Before doing anything else, you need to set your default Kubernetes
-configuration to use your guest cluster.
+However you set the `INSTALL_*` environment variables, you should now
+run the install script:
 
 ```execute
-```
-
-## Install "Tanzu Cluster Essentials"
-
-In your home directory you will find a sub-directory named
-`tanzu-cluster-essentials`, so go there now.
-
-```execute
-cd ~/tanzu-cluster-essentials
-```
-
-There is a script in that directory, `install.sh` which you will
-use to install some key packages needed to bootstrap everything else.
-However, before you run that, you need to set up some environment
-variables.
-For two of those variables you will need to supply your Tanzu
-Network username and password.
-
-Now you can run the install script.
-
-```execute
+cd $HOME/tanzu-cluster-essentials
 ./install.sh
 ```
 
-## Add the TAP package repository
+### Install or update the Tanzu CLI and plug-ins
 
-Once the install script has finished you can move on to adding
-the TAP package repository to your cluster.
-This, and a number of other components, belong in a namespace
-called `tap-install`.
-The repository needs to draw information from the Tanzu Network so a secret holding those is also needed.
+The `tanzu` CLI has already been installed in the workshop environment
+and there is nothing to do.
+You will, however, need to install the CLI on your local machine
+before you can use TAP from there.
 
-So, the following sequence of commands will do those steps.
+## Part II: Profiles
+
+Now you can move on to the main part of the installation process.
+
+```dashboard:open-url
+url: https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install.html
+```
+
+### Add the Tanzu Application Platform package repository
+
+You should follow through the steps of this process to configure
+the TAP package repository.
+For convenience, the commands are reproduced here, but please
+follow through the documentation to understand what they are
+doing, and that they still match the current versions.
 
 ```execute
 kubectl create ns tap-install
+```
 
+```execute
 tanzu secret registry add tap-registry \
   --username ${INSTALL_REGISTRY_USERNAME} \
   --password ${INSTALL_REGISTRY_PASSWORD} \
   --server ${INSTALL_REGISTRY_HOSTNAME} \
   --export-to-all-namespaces --yes --namespace tap-install
+```
 
+```execute
 tanzu package repository add tanzu-tap-repository \
   --url registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.0.0 \
   --namespace tap-install
 ```
 
-That final command should finish with a message:
-
+```execute
+tanzu package repository get tanzu-tap-repository --namespace tap-install
 ```
-Added package repository 'tanzu-tap-repository'
-```
-
-You can check if it has complete successfully by running:
 
 ```execute
-tanzu package repository get tanzu-tap-repository \
-  --namespace tap-install
+tanzu package available list --namespace tap-install
 ```
 
-This should produce something like the following:
+### Install a Tanzu Application Platform profile
 
-```
-- Retrieving repository tap...
-NAME:          tanzu-tap-repository
-VERSION:       121657971
-REPOSITORY:    registry.tanzu.vmware.com/tanzu-application-platform/tap-packages
-TAG:           1.0.0
-STATUS:        Reconcile succeeded
-REASON:
+Unless you particularly want to explore the Learning Center or
+image scanning, you will probably want to choose the `light`
+profile to install.
+
+A crucial part of the process is to create a `tap-values.yaml` file.
+Assuming that you have set the variables in the `environment.sh`
+file, you can create a file suitable for a `light` installation
+on Calatrava by doing the following:
+
+```execute
+cd ~/tap
+
+source environment.sh
+
+envsubst < tap-values.yaml.template > tap-values.yaml
 ```
 
-If the status is still shown as "Reconciling" then wait for a minute
-or two before checking again.
+You should then edit the file to make sure that you are happy with
+the values that it has supplied.
+
+```editor:open-file
+file: ~/tap/tap-values.yaml
+```
+
+In particular, the `tap_gui.app_config.catalog` value points to
+a blank catalog which you are welcome to use just to get the interface
+up and running, but which you will probably want to replace with
+a version of your own.
+Also, the OOTB `basic` supply chain is the one selected, although
+you can, of course, change this.
+
+Unless you change them, the set of URLs that will be exposed by the
+installation are as follows:
+
+* `http://*.apps.<namespace>.calatrava.vmware.com` for deployed workloads
+* `http://tap-gui.<namespace>.calatrava.vmware.com` for the TAP GUI
+* `http://*.learn.<namespace>.calatrava.vmware.com` for Learning Center (if
+you deploy it).
+
+(Note that all of them are unsecured, HTTP-only endpoints.)
+
+Once you have your `tap-values.yaml` file you can start the
+package installation, as it describes in the documentation:
+
+```execute
+cd ~/tap
+
+tanzu package install tap -p tap.tanzu.vmware.com -v 1.0.0 \
+  --values-file tap-values.yml -n tap-install
+```
+
+If the command times out, as may happen, it is safe to re-run it.
+Once it has completed you can run:
+
+```execute
+tanzu package available list --namespace tap-install
+```
+
+Followed by:
+
+```execute
+tanzu package installed list -A
+```
+
+### Configure LoadBalancer for Contour ingress
+
+If you used the template `tap-values.yaml` file supplied above
+then this will have been taken care of.
+
+### Access the Tanzu Application Platform GUI
+
+Again, if you used the template configuration file, the GUI will have
+been set up using the "Ingress Method" described in the
+[Accessing Tanzu Application Platform GUI](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-tap-gui-accessing-tap-gui.html)
+documentation page.
+As a result, you should be to access the GUI at
+`http://tap-gui.<namespace>.calatrava.vmware.com`.
+
+## Saving and modifying your configuration
+
+Congratulations!
+You should now have a fully functioning TAP environment of your
+own to use and experiment with.
+However, it's quite possible that you will want to modify
+the configuration in future so before you finish it is time
+to make a backup of your configuration.
+
+You can make changes to your TAP installation by editing
+your `tap-values.yaml` file and then reapplying it at some time
+in the future using the `tanzu package installed update` command.
+However, this means that you should keep that file safe.
+You can use the link below to download it now.
+```
+
+```files:download-file
+path: tap/tap-values.yaml
+```
+
+Once you've done that it's time to move on to the final part
+of this workshop.
 
 ```section:end
 name: red

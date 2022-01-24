@@ -1,0 +1,77 @@
+profile: light
+ceip_policy_disclosed: true # Installation fails if this is set to 'false'
+
+buildservice:
+  tanzunet_username: "${TANZUNET_USERNAME}"
+  tanzunet_password: "${TANZUNET_USERNAME}"
+  kp_default_repository: "${REGISTRY}"
+  kp_default_repository_username: "${REGISTRY_USERNAME}"
+  kp_default_repository_password: "${REGISTRY_PASSWORD}"
+
+appliveview:
+  connector_namespaces: [default]
+  service_type: "LoadBalancer"
+
+accelerator:
+  server:
+    service_type: "LoadBalancer"
+    watched_namespace: "default"
+
+# Note: tap-gui is configured here via the tanzu-system-ingress
+tap_gui:
+  namespace: tap-gui
+  service_type: ClusterIP
+  ingressEnabled: "true"
+  ingressDomain: "${DOMAIN}"
+  app_config:
+    app:
+      baseUrl: http://tap-gui.${DOMAIN}
+    catalog:
+      locations:
+        - type: url
+          target: https://github.com/ndwinton/tap-gui-blank-catalog/blob/main/catalog-info.yaml
+    backend:
+        baseUrl: http://tap-gui.${DOMAIN}
+        cors:
+            origin: http://tap-gui.${DOMAIN}
+
+supply_chain: basic
+
+ootb_supply_chain_basic:
+  service_account: default
+  registry:
+    server: "${REGISTRY_HOST}"
+    repository: "${REGISTRY_PATH}"
+  gitops:
+    ssh_secret: ""
+
+cnrs:
+  domain_name: "apps.${DOMAIN}"
+  ingress:
+    reuse_crds: true
+    external:
+      namespace: tanzu-system-ingress
+    internal:
+      namespace: tanzu-system-ingress
+
+contour:
+  envoy:
+    service:
+      type: LoadBalancer
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: "${DOMAIN}"
+        external-dns.calatrava.vmware.com/with-wildcard: "true"
+
+metadata_store:
+  app_service_type: LoadBalancer # (optional) Defaults to LoadBalancer. Change to NodePort for distributions that don't support LoadBalancer
+
+##
+## The following may be used in a 'full' install
+##
+# learningcenter:
+#   ingressDomain: learn.nwinton-tap.calatrava.vmware.com
+#
+# grype:
+#   namespace: "default"
+#   targetImagePullSecret: "registry-credentials"
+
