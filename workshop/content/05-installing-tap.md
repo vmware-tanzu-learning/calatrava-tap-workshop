@@ -467,7 +467,6 @@ When you have saved that, you should load it into your current
 session:
 
 ```execute
-```
 source ~/tap/environment.sh
 ```
 
