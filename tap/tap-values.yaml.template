@@ -3,7 +3,7 @@ ceip_policy_disclosed: true # Installation fails if this is set to 'false'
 
 buildservice:
   tanzunet_username: "${TANZUNET_USERNAME}"
-  tanzunet_password: "${TANZUNET_USERNAME}"
+  tanzunet_password: "${TANZUNET_PASSWORD}"
   kp_default_repository: "${REGISTRY}"
   kp_default_repository_username: "${REGISTRY_USERNAME}"
   kp_default_repository_password: "${REGISTRY_PASSWORD}"
