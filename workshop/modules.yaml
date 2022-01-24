@@ -15,7 +15,7 @@ modules:
         name: Installing TAP
         exit_sign: Local setup
     06-local-setup:
-        name: Installing TAP
+        name: Local Setup
         exit_sign: Next Steps
     07-next-steps:
         name: Next Steps
