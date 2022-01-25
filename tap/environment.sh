@@ -3,7 +3,8 @@
 export TANZUNET_USERNAME="<replace-this>"
 export TANZUNET_PASSWORD="<replace-this>"
 
-# Add your Calatrava namespace here
+# Add your Calatrava namespace here, it will
+# be something like 'yourvmwareid-tap'
 
 export CALATRAVA_NAMESPACE="<replace-this>"
 
@@ -11,13 +12,17 @@ export CALATRAVA_NAMESPACE="<replace-this>"
 # The given REGISTRY value reflects a reasonable pattern for
 # a TAP install on Harbor.
 # Strictly the "registry" is the server, and that hosts multiple
-# repositories but we stick with registry for consistency.
+# repositories but we stick with the term registry for consistency.
 
 export REGISTRY_USERNAME="<replace-this>"
 export REGISTRY_PASSWORD="<replace-this>"
 export REGISTRY="harbor-repo.vmware.com/${REGISTRY_USERNAME}/tap"
 export REGISTRY_SERVER="harbor-repo.vmware.com"
 export REGISTRY_PATH="${REGISTRY_USERNAME}/tap"
+# For DockerHub use these values ...
+#export REGISTRY="index.docker.io/${REGISTRY_USERNAME}/tap"
+#export REGISTRY_SERVER="index.docker.io"
+#export REGISTRY_PATH="${REGISTRY_USERNAME}"
 
 ###
 ### Don't change anything from here on ...

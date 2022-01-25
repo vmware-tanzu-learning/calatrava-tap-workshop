@@ -250,9 +250,12 @@ However, before you can use TAP to create any workloads you
 must follow the steps to
 [set up developer namespaces](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install-components.html#setup).
 
-Using the values provided in `environment.sh`, a possible set of
-commands to set this up for the `default` Kubernetes namespace
-would be as follows:
+Using the values provided in `environment.sh`, here are
+a set of commands to set this up for the `default` Kubernetes namespace.
+Note that the first command is slightly different depending on
+whether you used DockerHub for your container registry.
+
+#### **If you are NOT using DockerHub for your registry**
 
 ```execute
 tanzu secret registry add registry-credentials \
@@ -261,6 +264,20 @@ tanzu secret registry add registry-credentials \
   --password "${REGISTRY_PASSWORD}" \
   --namespace default
 ```
+
+#### **If you ARE using DockerHub for your container registry**
+
+You will need a slightly different version of the command:
+
+```execute
+tanzu secret registry add registry-credentials \
+  --server "https://index.docker.io/v1/" \
+  --username "${REGISTRY_USERNAME}" \
+  --password "${REGISTRY_PASSWORD}" \
+  --namespace default
+```
+
+In either case, you should then follow this with the following:
 
 ```execute
 cat <<EOF | kubectl -n default apply -f -
