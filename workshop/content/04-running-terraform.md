@@ -77,6 +77,13 @@ This name is constructed from the username that you supplied
 at the prompt and another variable `nimbus_nsname` set near the
 top of the `tap.tf` file.
 
+If the command fails, as may occasionally happen, you can safely
+try re-running the `terraform apply` again.
+If it continues to fail then there may be a temporary issue with
+the Nimbus instance you have chosen, so you can alter your
+`tap.tf` file and select a different one.
+If that *still* fails then you may need to seek assistance on
+the `#calatrava` Slack channel.
 
 > **A note on namespaces**
 >  
@@ -96,8 +103,8 @@ top of the `tap.tf` file.
 > For this reason it is best to make the namespace uniques across
 > **all** instances.
 
-The creation process will then continue, showing more messages,
-as follows:
+Assuming that you didn't have any issues, the creation process will
+continue, showing more messages, as follows:
 
 ```text
 local_file.sv_kubeconfig: Creating...
