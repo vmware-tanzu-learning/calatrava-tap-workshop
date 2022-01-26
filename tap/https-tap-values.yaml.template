@@ -16,6 +16,9 @@ accelerator:
   server:
     service_type: "LoadBalancer"
     watched_namespace: "default"
+  tls:
+    secretName: ingress-secret
+    namespace: tanzu-system-ingress
 
 # Note: tap-gui is configured here via the tanzu-system-ingress
 tap_gui:
@@ -23,17 +26,20 @@ tap_gui:
   service_type: ClusterIP
   ingressEnabled: "true"
   ingressDomain: "${DOMAIN}"
+  tls:
+    secretName: ingress-secret
+    namespace: tanzu-system-ingress
   app_config:
     app:
-      baseUrl: http://tap-gui.${DOMAIN}
+      baseUrl: https://tap-gui.${DOMAIN}
     catalog:
       locations:
         - type: url
           target: https://github.com/ndwinton/tap-gui-blank-catalog/blob/main/catalog-info.yaml
     backend:
-        baseUrl: http://tap-gui.${DOMAIN}
+        baseUrl: https://tap-gui.${DOMAIN}
         cors:
-            origin: http://tap-gui.${DOMAIN}
+            origin: https://tap-gui.${DOMAIN}
 
 supply_chain: basic
 
@@ -47,6 +53,7 @@ ootb_supply_chain_basic:
 
 cnrs:
   domain_name: "apps.${DOMAIN}"
+  default_tls_secret: tanzu-system-ingress/ingress-secret
   provider: tkgs
   ingress:
     reuse_crds: true
@@ -71,7 +78,8 @@ metadata_store:
 ##
 #learningcenter:
 #  ingressDomain: learn.${DOMAIN}.calatrava.vmware.com
-#
+#  ingressSecret:
+#    secretName: ingress-secret
 #grype:
 #  namespace: "default"
 #  targetImagePullSecret: "registry-credentials"
