@@ -8,6 +8,9 @@ use that cluster for experimentation and learning.
 
 The workshop should take less than an hour, and will expire after 120
 minutes.
-When 75% of the time has elapsed the timer at the top right will turn
-red and you can click on it to extend the workshop.
+You can see how much time is remaining by the timer at the top right
+of the screen.
+If you need longer to complete the workshop, once 75% of the time
+has elapsed the timer will turn red and you can click on it to
+extend your session.
 
