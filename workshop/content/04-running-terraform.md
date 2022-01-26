@@ -159,3 +159,19 @@ Now you should download that zip file and keep it safe!
 ```files:download-file
 path: tap-terraform.zip
 ```
+
+## Note on restarting the workshop
+
+Once you have successfully completed this step and have downloaded the
+Terraform state and Kubernetes credentials you can re-start the
+workshop from this point.
+In order to do so you will need to re-create the `gc.kubeconfig`
+file in the `terraform` directory.
+You can do by pasting the contents into either the built in
+editor or from the terminal.
+
+You can, of course, just re-run the complete workshop again.
+However, if you run it with the same configuration and you already
+have an existing cluster matching that, it is likely that the
+`terraform apply` command will fail the first time you run it
+and will destroy the existing cluster.

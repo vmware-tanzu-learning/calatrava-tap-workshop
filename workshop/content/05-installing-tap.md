@@ -255,7 +255,7 @@ a set of commands to set this up for the `default` Kubernetes namespace.
 Note that the first command is slightly different depending on
 whether you used DockerHub for your container registry.
 
-#### **If you are NOT using DockerHub for your registry**
+#### If you are _NOT_ using DockerHub for your registry
 
 ```execute
 tanzu secret registry add registry-credentials \
@@ -265,9 +265,7 @@ tanzu secret registry add registry-credentials \
   --namespace default
 ```
 
-#### **If you ARE using DockerHub for your container registry**
-
-You will need a slightly different version of the command:
+#### If you _ARE_ using DockerHub for your container registry
 
 ```execute
 tanzu secret registry add registry-credentials \
