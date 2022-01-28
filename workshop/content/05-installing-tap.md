@@ -99,7 +99,7 @@ should edit now.
 
 ```editor:select-matching-text
 file: ~/tap/environment.sh
-text: (<tanzu-network-.*>)
+text: (<replace-this>)
 isRegex: true
 group: 1
 ```
