@@ -441,7 +441,7 @@ kubectl create secret tls ingress-cert -n tanzu-system-ingress \
 Then you need to configure Contour to use the secret:
 
 ```execute
-kubectl -f - <<EOF
+kubectl apply -f - <<EOF
 apiVersion: projectcontour.io/v1
 kind: TLSCertificateDelegation
 metadata:
@@ -452,6 +452,7 @@ spec:
     - secretName: ingress-cert
       targetNamespaces:
         - "*"
+EOF
 ```
 
 ### Update TAP to use HTTPS
