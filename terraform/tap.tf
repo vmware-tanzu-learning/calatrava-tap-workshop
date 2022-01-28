@@ -54,14 +54,14 @@ resource "pacific_guestcluster" "gc" {
   topology_workers_volumes {
     name             = "containerd"
     mountpath         = "/var/lib/containerd"
-    capacity_storage = "64Gi"
+    capacity_storage = "32Gi"
   }
 
   # Log volume
   topology_workers_volumes {
     name             = "log"
     mountpath         = "/var/log/containers"
-    capacity_storage = "8Gi"
+    capacity_storage = "32Gi"
   }
 
 }
