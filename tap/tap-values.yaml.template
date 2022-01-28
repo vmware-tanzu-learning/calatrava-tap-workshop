@@ -1,4 +1,4 @@
-profile: light
+profile: light  # 'full' is the other possibility
 ceip_policy_disclosed: true # Installation fails if this is set to 'false'
 
 buildservice:
@@ -7,6 +7,9 @@ buildservice:
   kp_default_repository: "${REGISTRY}"
   kp_default_repository_username: "${REGISTRY_USERNAME}"
   kp_default_repository_password: "${REGISTRY_PASSWORD}"
+  # Uncomment the following 2 lines to enable automatic dependency updates
+  # enable_automatic_dependency_updates: true
+  # descriptor_name: tap-1.0.0-full
 
 appliveview:
   connector_namespaces: [default]
@@ -47,6 +50,7 @@ ootb_supply_chain_basic:
 
 cnrs:
   domain_name: "apps.${DOMAIN}"
+  domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
   provider: tkgs
   ingress:
     reuse_crds: true
@@ -67,7 +71,7 @@ metadata_store:
   app_service_type: LoadBalancer # (optional) Defaults to LoadBalancer. Change to NodePort for distributions that don't support LoadBalancer
 
 ##
-## The following may be used in a 'full' install
+## The following would be used in a 'full' install
 ##
 #learningcenter:
 #  ingressDomain: learn.${DOMAIN}.calatrava.vmware.com

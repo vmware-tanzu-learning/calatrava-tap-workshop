@@ -11,42 +11,39 @@
 
 set -e
 
-baseDN="/C=US/ST=CA/L=Palo Alto/O=VMware Inc./OU=Tanzu"
 lifetime=365
 
-rootCert="rootCA.crt"
-rootKey="rootCA.key"
-
-if [[ ! -f rootCA.crt ]]
+domain=${1-$DOMAIN}
+if [[ -z "$domain" ]]
 then
-  echo "No root CA certificate found, generating a new cert/key pair"
-  openssl genrsa -out $rootKey 2048
-  openssl req -x509 -new -nodes -key $rootKey -sha256 -days $lifetime -subj "$baseDN/CN=Self-Signed Root CA" -out $rootCert
-  echo "Root CA certificate: $rootCert"
-  echo "Root CA private key: $rootKey"
-else
-  echo "Using existing root CA certificate: $rootCert"
-fi
-echo "---"
+  cat >&2 <<EOF
+Usage: $0 [domain-name]
 
-if [[ -z "$1" ]]
-then
-  echo "Usage: $0 [domain-name]"
-  echo "Please supply a domain to create a certificate for";
-  echo "e.g. mysite.com or 1.2.3.4.nip.io"
-  exit
+Please supply a base domain name for the certificate.
+
+The domain-name is taken from the command-line, or the DOMAIN
+environment variable, if that is se.
+EOF
+  exit 1
 fi
 
-domain=$1
-subject="$baseDN/CN=$domain"
-
-extFile=$domain.v3.ext
-cat > $extFile <<EOF
-authorityKeyIdentifier=keyid,issuer
-basicConstraints=CA:FALSE
-keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+config_file=$domain.config
+cat > $config_file <<EOF
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+C = US
+ST = CA
+L = Palo Alto
+O = VMware Inc.
+OU = Tanzu
+CN = $domain
+[v3_req]
+keyUsage =  digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
-
 [alt_names]
 DNS.1 = $domain
 DNS.2 = *.$domain
@@ -55,11 +52,24 @@ DNS.4 = *.apps.$domain
 DNS.5 = *.learn.$domain
 EOF
 
-openssl req -new -newkey rsa:2048 -sha256 -nodes -keyout $domain.key -subj "$subject" -out $domain.csr
-openssl x509 -req -in $domain.csr -CA $rootCert -CAkey $rootKey -CAcreateserial -out $domain.crt -days $lifetime -sha256 -extfile $extFile
+if [[ ! -f "$domain.key" ]]
+then
+  echo "Generating new key: $domain.key"
+  openssl genrsa -out "$domain.key" 2048
+else
+  echo "Using existing key file: $domain.key"
+fi
 
-echo "---"
-echo "New certificate successully generated"
-echo "Private key: $domain.key"
-echo "Certificate: $domain.crt"
+echo "Generating certificate signing request: $domain.csr"
+openssl req -new -nodes \
+  -key "$domain.key" -config $config_file \
+  -out "$domain.csr" -sha256
 
+if $self_signed
+then
+  echo "Generating self-signed certificate: $domain.crt"
+  openssl x509 -req -days $lifetime \
+    -in "$domain.csr" -signkey "$domain.key" \
+    -out "$domain.crt" -sha256 \
+    -extfile "$domain.config" -extensions v3_req
+fi

@@ -1,4 +1,4 @@
-profile: light
+profile: light  # 'full' is the other possibility
 ceip_policy_disclosed: true # Installation fails if this is set to 'false'
 
 buildservice:
@@ -7,6 +7,9 @@ buildservice:
   kp_default_repository: "${REGISTRY}"
   kp_default_repository_username: "${REGISTRY_USERNAME}"
   kp_default_repository_password: "${REGISTRY_PASSWORD}"
+  # Uncomment the following 2 lines to enable automatic dependency updates
+  # enable_automatic_dependency_updates: true
+  # descriptor_name: tap-1.0.0-full
 
 appliveview:
   connector_namespaces: [default]
@@ -17,7 +20,7 @@ accelerator:
     service_type: "LoadBalancer"
     watched_namespace: "default"
   tls:
-    secretName: ingress-secret
+    secretName: ingress-cert
     namespace: tanzu-system-ingress
 
 # Note: tap-gui is configured here via the tanzu-system-ingress
@@ -27,7 +30,7 @@ tap_gui:
   ingressEnabled: "true"
   ingressDomain: "${DOMAIN}"
   tls:
-    secretName: ingress-secret
+    secretName: ingress-cert
     namespace: tanzu-system-ingress
   app_config:
     app:
@@ -53,7 +56,8 @@ ootb_supply_chain_basic:
 
 cnrs:
   domain_name: "apps.${DOMAIN}"
-  default_tls_secret: tanzu-system-ingress/ingress-secret
+  domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
+  default_tls_secret: tanzu-system-ingress/ingress-cert
   provider: tkgs
   ingress:
     reuse_crds: true
@@ -74,12 +78,12 @@ metadata_store:
   app_service_type: LoadBalancer # (optional) Defaults to LoadBalancer. Change to NodePort for distributions that don't support LoadBalancer
 
 ##
-## The following may be used in a 'full' install
+## The following would be used in a 'full' install
 ##
 #learningcenter:
 #  ingressDomain: learn.${DOMAIN}.calatrava.vmware.com
 #  ingressSecret:
-#    secretName: ingress-secret
+#    secretName: ingress-cert
 #grype:
 #  namespace: "default"
 #  targetImagePullSecret: "registry-credentials"
