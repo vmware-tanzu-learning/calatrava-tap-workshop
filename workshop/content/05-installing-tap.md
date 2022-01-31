@@ -438,6 +438,15 @@ kubectl create secret tls ingress-cert -n tanzu-system-ingress \
   --key ~/tap/$DOMAIN.key --cert ~/tap/$DOMAIN.crt
 ```
 
+If you have done a `full` install or have enabled the
+`learningcenter` package then you will also have to add
+the same secret to the `learningcenter` namespace:
+
+```execute
+kubectl create secret tls ingress-cert -n learningcenter \
+  --key ~/tap/$DOMAIN.key --cert ~/tap/$DOMAIN.crt
+```
+
 Then you need to configure Contour to use the secret:
 
 ```execute
