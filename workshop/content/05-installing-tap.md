@@ -79,7 +79,7 @@ Any errors will cause the script to exit immediately but if it
 completes successfully you should go to the end of this
 
 ```section:end
-name:just-do-it
+name: just-do-it
 ```
 
 ## Part I: Prerequisites
