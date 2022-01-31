@@ -39,19 +39,22 @@ described at appropriate points.
 If those assumptions do not meet your needs then you will have to make
 the necessary adjustments as you go through the documentation.
 
-## If you really don't care about the details ...
+## If you don't care about the details ...
+
+If you are in a hurry and just want a TAP installation that you
+can use and experiment with, and don't want to understand the
+installation and customisation process, then we have provided a script
+that runs all of the installation steps.
+Click on the section below for the details, otherwise carry on
+with the full instructions,
 
 ```section:begin
 name: just-do-it
 title: Just Do It
 ```
 
-If you are in a hurry and just want a TAP installation that you
-can use and experiment with, and don't want to understand the
-installation and customisation process, then we have provided a script
-that runs all of the installation steps.
-The script will result in a TAP installation with the following
-configuration:
+Using this this script will result in a TAP installation with the
+following configuration:
 
 * It uses the `light` profile, so does not include the supply chain
   security tools, the API Portal or the Learning Center.
@@ -69,7 +72,7 @@ isRegex: true
 group: 1
 ```
 
-The you can run the script:
+Then you can run the script:
 
 ```execute
 ~/tap/just-do-it.sh
