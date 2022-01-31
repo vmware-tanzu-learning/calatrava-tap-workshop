@@ -46,7 +46,7 @@ can use and experiment with, and don't want to understand the
 installation and customisation process, then we have provided a script
 that runs all of the installation steps.
 Click on the section below for the details, otherwise carry on
-with the full instructions,
+with the full instructions.
 
 ```section:begin
 name: just-do-it
