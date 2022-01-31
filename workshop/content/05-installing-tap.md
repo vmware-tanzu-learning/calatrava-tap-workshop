@@ -79,7 +79,9 @@ Then you can run the script:
 ```
 
 Any errors will cause the script to exit immediately but if it
-completes successfully you should go to the end of this
+completes successfully you should go to the section on
+[saving and modifying your configuration](#saving-and-modifying-your-configuration)
+below.
 
 ```section:end
 name: just-do-it
