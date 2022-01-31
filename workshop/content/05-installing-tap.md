@@ -39,6 +39,49 @@ described at appropriate points.
 If those assumptions do not meet your needs then you will have to make
 the necessary adjustments as you go through the documentation.
 
+## If you really don't care about the details ...
+
+```section:begin
+name: just-do-it
+title: Just Do It
+```
+
+If you are in a hurry and just want a TAP installation that you
+can use and experiment with, and don't want to understand the
+installation and customisation process, then we have provided a script
+that runs all of the installation steps.
+The script will result in a TAP installation with the following
+configuration:
+
+* It uses the `light` profile, so does not include the supply chain
+  security tools, the API Portal or the Learning Center.
+* The `basic` supply chain is installed.
+* The TAP GUI and other endpoints exposed over HTTPS using self-signed
+  certificates.
+
+Before running the script you must edit the `environment.sh`
+file and fill in the placeholders with appropriate values.
+
+```editor:select-matching-text
+file: ~/tap/environment.sh
+text: (<replace-this>)
+isRegex: true
+group: 1
+```
+
+The you can run the script:
+
+```execute
+~/tap/just-do-it.sh
+```
+
+Any errors will cause the script to exit immediately but if it
+completes successfully you should go to the end of this
+
+```section:end
+name:just-do-it
+```
+
 ## Part I: Prerequisites
 
 The installation instructions are broken down into two main sections.
@@ -152,9 +195,9 @@ Create a registry secret:
 
 ```execute
 tanzu secret registry add tap-registry \
-  --username ${INSTALL_REGISTRY_USERNAME} \
-  --password ${INSTALL_REGISTRY_PASSWORD} \
-  --server ${INSTALL_REGISTRY_HOSTNAME} \
+  --username "${INSTALL_REGISTRY_USERNAME}" \
+  --password "${INSTALL_REGISTRY_PASSWORD}" \
+  --server "${INSTALL_REGISTRY_HOSTNAME}" \
   --export-to-all-namespaces --yes --namespace tap-install
 ```
 
@@ -362,7 +405,6 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-
 EOF
 ```
 
@@ -407,6 +449,10 @@ However, you may wish to add HTTPS support to your installation.
 The following instructions will take you through the process of
 creating self-signed certificates and adding those to TAP.
 
+> **NOTE:** Not all components of TAP will currently work successfully
+> with self-signed certificates.
+> In particular, the Learning Center is unlikely to work correctly.
+
 ### Creating the certificate
 
 There is a script in the `~/tap` directory that you can use to
@@ -447,7 +493,7 @@ kubectl create secret tls ingress-cert -n learningcenter \
   --key ~/tap/$DOMAIN.key --cert ~/tap/$DOMAIN.crt
 ```
 
-Then you need to configure Contour to use the secret:
+Next, you need to configure Contour to use the secret:
 
 ```execute
 kubectl apply -f - <<EOF
@@ -513,7 +559,7 @@ You can then update your TAP installation to use this.
 name: https
 ```
 
-# Saving and modifying your configuration
+## Saving and modifying your configuration
 
 You can make changes to your TAP installation by editing
 your `tap-values.yaml` file and then reapplying it at some time
