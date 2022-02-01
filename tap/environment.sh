@@ -1,12 +1,15 @@
-# Add your Tanzu Network credentials here
+# NOTE: If your username or password contains ' or \ characters
+# be careful to escape them properly when supplying values for
+# the placeholders below.
 
-export TANZUNET_USERNAME="<replace-this>"
-export TANZUNET_PASSWORD="<replace-this>"
+# Add your Tanzu Network credentials here
+export TANZUNET_USERNAME='<replace-this>'
+export TANZUNET_PASSWORD='<replace-this>'
 
 # Add your Calatrava namespace here, it will
 # be something like 'yourvmwareid-tap'
 
-export CALATRAVA_NAMESPACE="<replace-this>"
+export CALATRAVA_NAMESPACE='<replace-this>'
 
 # Add your container registry details here.
 # The given REGISTRY value reflects a reasonable pattern for
@@ -14,8 +17,8 @@ export CALATRAVA_NAMESPACE="<replace-this>"
 # Strictly the "registry" is the server, and that hosts multiple
 # repositories but we stick with the term registry for consistency.
 
-export REGISTRY_USERNAME="<replace-this>"
-export REGISTRY_PASSWORD="<replace-this>"
+export REGISTRY_USERNAME='<replace-this>'
+export REGISTRY_PASSWORD='<replace-this>'
 export REGISTRY="harbor-repo.vmware.com/${REGISTRY_USERNAME}/tap"
 export REGISTRY_SERVER="harbor-repo.vmware.com"
 export REGISTRY_PATH="${REGISTRY_USERNAME}/tap"

@@ -145,6 +145,10 @@ definition file.
 You will find a suitable file in `~/tap/environment.sh`, which you
 should edit now.
 
+> **NOTE:** If your username or password contains `'` or `\`
+> characters be careful to escape them properly when supplying values
+> for the placeholders in the file.
+
 ```editor:select-matching-text
 file: ~/tap/environment.sh
 text: (<replace-this>)
