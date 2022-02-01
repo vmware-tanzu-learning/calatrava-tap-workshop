@@ -81,7 +81,7 @@ metadata_store:
 ## The following would be used in a 'full' install
 ##
 #learningcenter:
-#  ingressDomain: learn.${DOMAIN}.calatrava.vmware.com
+#  ingressDomain: learn.${DOMAIN}
 #  ingressSecret:
 #    secretName: ingress-cert
 #grype:
