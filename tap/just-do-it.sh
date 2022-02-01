@@ -46,14 +46,11 @@ envsubst < https-tap-values.yaml.template > tap-values.yaml
 
 tanzu package install tap -p tap.tanzu.vmware.com -v 1.0.0 \
   --values-file tap-values.yaml -n tap-install
-  
+
 ./create-tap-cert.sh
 
 kubectl create secret tls ingress-cert -n tanzu-system-ingress \
   --key ~/tap/$DOMAIN.key --cert ~/tap/$DOMAIN.crt
-
-kubectl create secret tls ingress-cert -n learningcenter \
---key ~/tap/$DOMAIN.key --cert ~/tap/$DOMAIN.crt
 
 kubectl apply -f - <<EOF
 apiVersion: projectcontour.io/v1
@@ -67,7 +64,6 @@ spec:
       targetNamespaces:
         - "*"
 EOF
-fi
 
 if [[ "${REGISTRY_SERVER}" == "index.docker.io" ]]
 then
@@ -173,3 +169,19 @@ EOF
 tanzu package installed get tap -n tap-install
 
 tanzu package installed list -A
+
+cat <<EOF
+
+=== Installation Complete ===
+
+It may take a while for packages to finish reconciling, check with
+
+  tanzu package installed list -A
+
+If you subquently enble the 'full' profile, you will also
+need to add the secret for the Learning Center
+
+  kubectl create secret tls ingress-cert -n learningcenter \
+    --key ~/tap/$DOMAIN.key --cert ~/tap/$DOMAIN.crt
+
+EOF
