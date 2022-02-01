@@ -44,7 +44,10 @@ cd ~/tap
 
 envsubst < https-tap-values.yaml.template > tap-values.yaml
 
-./create-tap.cert.sh
+tanzu package install tap -p tap.tanzu.vmware.com -v 1.0.0 \
+  --values-file tap-values.yaml -n tap-install
+  
+./create-tap-cert.sh
 
 kubectl create secret tls ingress-cert -n tanzu-system-ingress \
   --key ~/tap/$DOMAIN.key --cert ~/tap/$DOMAIN.crt
@@ -65,9 +68,6 @@ spec:
         - "*"
 EOF
 fi
-
-tanzu package install tap -p tap.tanzu.vmware.com -v 1.0.0 \
-  --values-file tap-values.yaml -n tap-install
 
 if [[ "${REGISTRY_SERVER}" == "index.docker.io" ]]
 then
