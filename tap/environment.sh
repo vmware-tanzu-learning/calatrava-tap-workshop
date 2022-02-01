@@ -19,9 +19,12 @@ export CALATRAVA_NAMESPACE='<replace-this>'
 
 export REGISTRY_USERNAME='<replace-this>'
 export REGISTRY_PASSWORD='<replace-this>'
-export REGISTRY="harbor-repo.vmware.com/${REGISTRY_USERNAME}/tap"
+# The HARBOR_PROJECT may be the same as your username for
+# personal repositories.
+export HARBOR_PROJECT='<replace-this>'
+export REGISTRY="harbor-repo.vmware.com/${HARBOR_PROJECT}/tap"
 export REGISTRY_SERVER="harbor-repo.vmware.com"
-export REGISTRY_PATH="${REGISTRY_USERNAME}/tap"
+export REGISTRY_PATH="${HARBOR_PROJECT}/tap"
 # For DockerHub use these values ...
 #export REGISTRY="index.docker.io/${REGISTRY_USERNAME}/tap"
 #export REGISTRY_SERVER="index.docker.io"
