@@ -37,6 +37,10 @@ FROM quay.io/eduk8s/base-environment:master
 
 USER root
 
+
+COPY ./.certs/VMwareRoot.crt /etc/pki/ca-trust/source/anchors
+RUN update-ca-trust
+
 COPY --from=builder --chown=0:0 /build/tanzu-cluster-essentials/kapp /usr/local/bin/kapp
 #RUN chmod a+x /usr/local/bin/kapp
 
