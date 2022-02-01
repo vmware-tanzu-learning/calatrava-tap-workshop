@@ -18,6 +18,9 @@ spec:
     image: harbor-repo.vmware.com/nwinton/calatrava-tap-workshop:latest
     files: "github.com/ndwinton/calatrava-tap-workshop?ref=main"
   session:
+    env:
+    - name: NODE_EXTRA_CA_CERTS
+      value: "/etc/ssl/certs/ca-bundle.crt"
     namespaces:
       budget: small
     applications:
