@@ -579,7 +579,7 @@ session: 2
 ```
 
 ```files:download-file
-path: ~/tap-config.zip
+path: tap-config.zip
 ```
 
 Once you've done that it's time to move on to the final part
