@@ -1,22 +1,14 @@
-LAB - Markdown Sample
-=====================
+TAP on Calatrava
+================
 
-Sample workshop content using Markdown formatting for pages.
+This workshop takes you through the process of installing
+Tanzu Application Platform (TAP) on VMware's internal _Calatrava_
+infrastructure.
+If you have access to that infrastructure you will create a TAP
+installation that you can take away at the end of the workshop and
+use for your own purposes.
 
-If you already have the Educates operator installed and configured, to
-deploy and view this sample workshop, run:
+If you don't have access to Calatrava, the workshop won't be of
+immediate use to you, but might give you ideas as to how you
+could do something similar in your own context.
 
-```
-kubectl apply -f https://raw.githubusercontent.com/ndwinton/calatrava-tap-workshop/main/resources/workshop.yaml
-kubectl apply -f https://raw.githubusercontent.com/ndwinton/calatrava-tap-workshop/main/resources/training-portal.yaml
-```
-
-This will deploy a training portal hosting just this workshop. To get the
-URL for accessing the training portal run:
-
-```
-kubectl get trainingportal/calatrava-tap-workshop
-```
-
-The training portal is configured to allow anonymous access. For your own
-workshop content you should consider removing anonymous access.
