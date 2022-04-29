@@ -30,7 +30,8 @@ WORKDIR /home/eduk8s/tanzu
 RUN install cli/core/v0.11.2/tanzu-core-linux_amd64 /usr/local/bin/tanzu
 ENV TANZU_CLI_NO_INIT=true
 RUN tanzu plugin install --local cli all
-RUN tanzu plugin install --local cli/standalone all
+# Next line is according to documentation -- but doesn't work!
+#RUN tanzu plugin install --local cli/standalone all
 
 RUN fix-permissions /home/eduk8s
 
