@@ -77,6 +77,9 @@ Then you can run the script:
 ~/tap/just-do-it.sh
 ```
 
+Note that there will be a couple of steps where you will be prompted
+to confirm that you want to continue.
+
 Any errors will cause the script to exit immediately but if it
 completes successfully you should go to the section on
 [saving and modifying your configuration](#saving-and-modifying-your-configuration)
