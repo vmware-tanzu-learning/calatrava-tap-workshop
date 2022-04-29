@@ -45,7 +45,7 @@ If you are in a hurry and just want a TAP installation that you
 can use and experiment with, and don't want to understand the
 installation and customisation process, then we have provided a script
 that runs all of the installation steps.
-Click on the section below for the details, otherwise carry on
+Click on the "Just Do It" section below for the details, otherwise carry on
 with the full instructions.
 
 ```section:begin
@@ -56,10 +56,9 @@ title: Just Do It
 Using this this script will result in a TAP installation with the
 following configuration:
 
-* It uses the `light` profile, so does not include the supply chain
-  security tools, the API Portal or the Learning Center.
+* It uses the `full` profile, so includes all components.
 * The `basic` supply chain is installed.
-* The TAP GUI and other endpoints exposed over HTTPS using self-signed
+* The TAP GUI and other endpoints are exposed over HTTPS using self-signed
   certificates.
 
 Before running the script you must edit the `environment.sh`
