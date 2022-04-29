@@ -6,7 +6,7 @@ Tanzu CLI (the `tanzu` command binary) installed on your local
 development system.
 If you do not already have an up to date version installed, you
 should follow the instructions for your operating system from the
-[official documentation](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install-general.html#cli-and-plugin).
+[official documentation](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-install-tanzu-cli.html).
 
 Once you have this installed you can use it along with your
 `tap-values.yaml` file to make further changes to your TAP installation,
@@ -19,8 +19,8 @@ An optional part of the overall TAP installation process is
 to install some tooling for the VSCode IDE which makes working with
 TAP easier.
 The
-[instructions](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-vscode-extension-install.html)
-are straightforwared if you wish to use this, but it is not necessary
+[instructions](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-vscode-extension-installation.html)
+are straightforward if you wish to use this, but it is not necessary
 to do so in order to use TAP.
 
 # Installing Terraform

@@ -4,7 +4,7 @@ This isn't hard, but there are just a few steps that you will
 need to perform, which we will walk through here.
 
 The full process for installing TAP is described in the
-[official documentation](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install-intro.html).
+[official documentation](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-install-intro.html).
 Some of the steps, particularly downloading and installing
 the Tanzu CLI and the prerequisite software have already been done
 for you, so now it's just the steps that depend on having your
@@ -89,13 +89,13 @@ name: just-do-it
 
 ## Part I: Prerequisites
 
-The installation instructions are broken down into two main sections.
+The installation instructions are broken down into three main sections.
 In order to avoid repeating things unnecessarily here, you will need
 to keep the appropriate part of the documentation open, so open
 the first part now:
 
 ```dashboard:open-url
-url: https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install-general.html
+url: https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-prerequisites.html
 ```
 This deals with setting up some pre-requisites, accepting EULAs
 and installing the Tanzu CLI.
@@ -124,7 +124,7 @@ wish your cluster to be.
 
 ### Accept the EULAs
 
-The _Accept the EULAs_ section should be irrelevant for VMware
+On the next page, the _Accept the EULAs_ section should be irrelevant for VMware
 employees, as acceptance happens automatically at download.
 However, you can go through the process if you wish to understand
 the customer experience.
@@ -136,11 +136,12 @@ of the work has already been done for you in the workshop environment.
 The archive file has already been downloaded and expanded into
 `tanzu-cluster-essentials` in your your home directory, and the `kapp`
 tool is already installed.
-This means that you only need to execute step 4.
 
+You will, however, need to run the installation script, as
+described in the [Cluster Essentials documentation].
 As you are going to need to set up several other environment variables
-during the installation process, in addition to the ones shown in this
-step, this workshop assumes that you will put them all in a single
+during the installation process, in addition to the ones needed for
+that script, this workshop assumes that you will put them all in a single
 definition file.
 You will find a suitable file in `~/tap/environment.sh`, which you
 should edit now.
@@ -163,7 +164,7 @@ session:
 source ~/tap/environment.sh
 ```
 
-Now you can run the cluster essentials install script:
+Now you can run the Cluster Essentials install script:
 
 ```execute
 cd $HOME/tanzu-cluster-essentials
@@ -183,16 +184,30 @@ before you can use TAP from there.
 Now you can move on to the main part of the installation process.
 
 ```dashboard:open-url
-url: https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install.html
+url: https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-install.html
 ```
-
-### Add the Tanzu Application Platform package repository
 
 You should follow through the steps of this process to configure
 the TAP package repository.
 For convenience, the commands are reproduced here, but please
 follow through the documentation to understand what they are
 doing, and that they still match the current versions.
+
+### Relocating images to a registry (or not)
+
+Although the recommendation in the documentation is that you should
+relocate the TAP images into your own registry, it is not strictly
+necessary, with the caveats that this configuration is only suitable for
+evaluation and proof-of-concept use.
+For simplicity, that is the approach we use in this workshop.
+
+If you do wish to relocate the images, you can follow the instructions
+in the documentation (including redefining some of the environment
+variables). Note, however, that you will need to adjust the command
+to add the TAP package repository shown below to reference your
+own location for the packages.
+
+### Setting up the TAP package repository
 
 Create the `tap-install` namespace:
 
@@ -210,11 +225,12 @@ tanzu secret registry add tap-registry \
   --export-to-all-namespaces --yes --namespace tap-install
 ```
 
-Add the TAP package repository:
+Add the TAP package repository (remember to change the URL here if you
+have relocated the packages to your own repository):
 
 ```execute
 tanzu package repository add tanzu-tap-repository \
-  --url registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.0.0 \
+  --url registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:$TAP_VERSION \
   --namespace tap-install
 ```
 
@@ -230,15 +246,11 @@ List the available packages:
 tanzu package available list --namespace tap-install
 ```
 
-### Install a Tanzu Application Platform profile
+### Install your Tanzu Application Platform profile
 
-Unless you particularly want to explore the Learning Center or
-the security tools, you will probably want to choose the `light`
-profile to install.
-
-A crucial part of the process is to create a `tap-values.yaml` file.
+A crucial part of the installation process is to create a `tap-values.yaml` file.
 Assuming that you have set the variables in the `environment.sh`
-file, you can create a file suitable for a `light` installation
+file, you can create a file suitable for a `full` installation
 on Calatrava by doing the following:
 
 ```execute
@@ -249,6 +261,9 @@ envsubst < tap-values.yaml.template > tap-values.yaml
 
 You should then edit the file to make sure that you are happy with
 the values that it has supplied.
+In particular, if you want to select one of the other
+[installation profiles](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-overview.html#profiles-and-packages)
+you will need to adjust the file accordingly.
 
 ```editor:open-file
 file: ~/tap/tap-values.yaml
@@ -277,7 +292,7 @@ package installation, as it describes in the documentation:
 ```execute
 cd ~/tap
 
-tanzu package install tap -p tap.tanzu.vmware.com -v 1.0.0 \
+tanzu package install tap -p tap.tanzu.vmware.com -v $TAP_VERSION \
   --values-file tap-values.yaml -n tap-install
 ```
 
@@ -300,7 +315,7 @@ It is easy to miss this step as it it linked out from the text
 after the package installation.
 However, before you can use TAP to create any workloads you
 must follow the steps to
-[set up developer namespaces](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install-components.html#setup).
+[set up developer namespaces](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-install-components.html#setup).
 
 Using the values provided in `environment.sh`, here are
 a set of commands to set this up for the `default` Kubernetes namespace.
@@ -331,7 +346,6 @@ In either case, you should then follow this with the following:
 
 ```execute
 cat <<EOF | kubectl -n default apply -f -
-
 apiVersion: v1
 kind: Secret
 metadata:
@@ -341,7 +355,6 @@ metadata:
 type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: e30K
-
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -352,70 +365,63 @@ secrets:
 imagePullSecrets:
   - name: registry-credentials
   - name: tap-registry
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: default
-rules:
-- apiGroups: [source.toolkit.fluxcd.io]
-  resources: [gitrepositories]
-  verbs: ['*']
-- apiGroups: [source.apps.tanzu.vmware.com]
-  resources: [imagerepositories]
-  verbs: ['*']
-- apiGroups: [carto.run]
-  resources: [deliverables, runnables]
-  verbs: ['*']
-- apiGroups: [kpack.io]
-  resources: [images]
-  verbs: ['*']
-- apiGroups: [conventions.apps.tanzu.vmware.com]
-  resources: [podintents]
-  verbs: ['*']
-- apiGroups: [""]
-  resources: ['configmaps']
-  verbs: ['*']
-- apiGroups: [""]
-  resources: ['pods']
-  verbs: ['list']
-- apiGroups: [tekton.dev]
-  resources: [taskruns, pipelineruns]
-  verbs: ['*']
-- apiGroups: [tekton.dev]
-  resources: [pipelines]
-  verbs: ['list']
-- apiGroups: [kappctrl.k14s.io]
-  resources: [apps]
-  verbs: ['*']
-- apiGroups: [serving.knative.dev]
-  resources: ['services']
-  verbs: ['*']
-- apiGroups: [servicebinding.io]
-  resources: ['servicebindings']
-  verbs: ['*']
-- apiGroups: [services.apps.tanzu.vmware.com]
-  resources: ['resourceclaims']
-  verbs: ['*']
-- apiGroups: [scanning.apps.tanzu.vmware.com]
-  resources: ['imagescans', 'sourcescans']
-  verbs: ['*']
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: default
+  name: default-permit-deliverable
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: default
+  kind: ClusterRole
+  name: deliverable
 subjects:
   - kind: ServiceAccount
     name: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: default-permit-workload
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: workload
+subjects:
+  - kind: ServiceAccount
+    name: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+name: dev-permit-app-viewer
+roleRef:
+apiGroup: rbac.authorization.k8s.io
+kind: ClusterRole
+name: app-viewer
+subjects:
+- kind: Group
+  name: "namespace-developers"
+  apiGroup: rbac.authorization.k8s.io
+--
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+name: namespace-dev-permit-app-viewer
+roleRef:
+apiGroup: rbac.authorization.k8s.io
+kind: ClusterRole
+name: app-viewer-cluster-access
+subjects:
+- kind: Group
+  name: "namespace-developers"
+  apiGroup: rbac.authorization.k8s.io
 EOF
 ```
+
+That also configures the groups `namespace-developers` and
+`namespace-viewers` with access to the namespace.
+As noted in the documentation, you can also use the
+`tanzu auth` plug-in to grant access.
 
 ### Configure LoadBalancer for Contour ingress
 
@@ -426,7 +432,7 @@ then this will have been taken care of.
 
 Again, if you used the template configuration file, the GUI will have
 been set up using the "Ingress Method" described in the
-[Accessing Tanzu Application Platform GUI](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-tap-gui-accessing-tap-gui.html)
+[Accessing Tanzu Application Platform GUI](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-tap-gui-accessing-tap-gui.html)
 documentation page.
 There should be nothing more for you to do.
 
@@ -557,7 +563,7 @@ use.
 TAP needs to use certificates with "wildcards" in order to handle the
 DNS names dynamically created to expose workloads.
 While there are tight restrictions (for good security reasons) on
-public certificates with widlcards, it is acceptable to employ
+public certificates with wildcards, it is acceptable to employ
 such certificates for internal use.
 
 You can use the CSR file generated by the script to request an

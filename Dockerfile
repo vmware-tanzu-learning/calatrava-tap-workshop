@@ -11,12 +11,12 @@ RUN install -o root -g root -m 0755 pivnet /usr/local/bin/pivnet
 ARG PIVNET_TOKEN
 RUN pivnet login --api-token=$PIVNET_TOKEN
 
-RUN pivnet download-product-files --product-slug='tanzu-cluster-essentials' --release-version='1.0.0' --product-file-id=1105818
+RUN pivnet download-product-files --product-slug='tanzu-cluster-essentials' --release-version='1.1.0' --product-file-id=1191987
 RUN mkdir tanzu-cluster-essentials
-RUN tar -xvf tanzu-cluster-essentials-linux-amd64-1.0.0.tgz -C ./tanzu-cluster-essentials
+RUN tar -xvf tanzu-cluster-essentials-linux-amd64-1.1.0.tgz -C ./tanzu-cluster-essentials
 RUN fix-permissions ./tanzu-cluster-essentials
 
-RUN pivnet download-product-files --product-slug='tanzu-application-platform' --release-version='1.0.0' --product-file-id=1114447
+RUN pivnet download-product-files --product-slug='tanzu-application-platform' --release-version='1.1.0' --product-file-id=1190781
 
 RUN curl -Lo terraform.zip https://releases.hashicorp.com/terraform/1.1.3/terraform_1.1.3_linux_amd64.zip
 RUN unzip terraform.zip
@@ -27,9 +27,10 @@ ENV HOME=/home/eduk8s
 RUN tar -xvf tanzu-framework-linux-amd64.tar -C /home/eduk8s/tanzu
 
 WORKDIR /home/eduk8s/tanzu
-RUN install cli/core/v0.10.0/tanzu-core-linux_amd64 /usr/local/bin/tanzu
+RUN install cli/core/v0.11.2/tanzu-core-linux_amd64 /usr/local/bin/tanzu
 ENV TANZU_CLI_NO_INIT=true
 RUN tanzu plugin install --local cli all
+RUN tanzu plugin install --local cli/standalone all
 
 RUN fix-permissions /home/eduk8s
 
@@ -37,23 +38,19 @@ FROM quay.io/eduk8s/base-environment:master
 
 USER root
 
-
+# Add our own CA root file to the trusted certs
 COPY ./.certs/VMwareRoot.crt /etc/pki/ca-trust/source/anchors
 RUN update-ca-trust
 
-COPY --from=builder --chown=0:0 /build/tanzu-cluster-essentials/kapp /usr/local/bin/kapp
-#RUN chmod a+x /usr/local/bin/kapp
+COPY --from=builder --chown=0:0 \
+  /build/tanzu-cluster-essentials/kapp \
+  /build/tanzu-cluster-essentials/ytt \
+  /build/terraform \
+  /usr/local/bin/tanzu \
+  /usr/local/bin/
 
-COPY --from=builder --chown=0:0 /build/tanzu-cluster-essentials/ytt /usr/local/bin
-#RUN chmod a+x /usr/local/bin/ytt
+RUN chmod a+x /usr/local/bin/kapp /usr/local/bin/ytt /usr/local/bin/terraform /usr/local/bin/tanzu
 
-COPY --from=builder --chown=0:0 /build/terraform /usr/local/bin
-#RUN chmod a+x /usr/local/bin/terraform
-
-COPY --from=builder --chown=0:0 /usr/local/bin/tanzu /usr/local/bin
-RUN chmod a+x /usr/local/bin/tanzu
-
-#COPY --chown=1001:0 --from=builder /home/eduk8s/tanzu /home/eduk8s/tanzu
 COPY --chown=1001:0 --from=builder /home/eduk8s/.cache /home/eduk8s/.cache
 COPY --chown=1001:0 --from=builder /home/eduk8s/.local /home/eduk8s/.local
 

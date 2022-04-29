@@ -1,4 +1,4 @@
-profile: light  # 'full' is the other possibility
+profile: full
 ceip_policy_disclosed: true # Installation fails if this is set to 'false'
 
 buildservice:
@@ -7,9 +7,7 @@ buildservice:
   kp_default_repository: "${REGISTRY}"
   kp_default_repository_username: "${REGISTRY_USERNAME}"
   kp_default_repository_password: "${REGISTRY_PASSWORD}"
-  # Uncomment the following 2 lines to enable automatic dependency updates
-  # enable_automatic_dependency_updates: true
-  # descriptor_name: tap-1.0.0-full
+  # descriptor_name: lite
 
 appliveview:
   connector_namespaces: [default]
@@ -70,13 +68,10 @@ contour:
 metadata_store:
   app_service_type: LoadBalancer # (optional) Defaults to LoadBalancer. Change to NodePort for distributions that don't support LoadBalancer
 
-##
-## The following would be used in a 'full' install
-##
-#learningcenter:
-#  ingressDomain: learn.${DOMAIN}
-#
-#grype:
-#  namespace: "default"
-#  targetImagePullSecret: "registry-credentials"
+learningcenter:
+  ingressDomain: learn.${DOMAIN}
+
+grype:
+  namespace: "default"
+  targetImagePullSecret: "registry-credentials"
 

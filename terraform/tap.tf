@@ -1,8 +1,9 @@
 variable "nimbus_user" {
-
+  # This will be prompted for
 }
 
 variable "nimbus_nsname" {
+  # You can change this if you wish
   default = "tap"
 }
 
@@ -17,14 +18,20 @@ terraform {
   }
 }
 
-# Keep the nimbus server/config/ip values, they are fine for you to use
 resource "pacific_nimbus_namespace" "ns" {
   user          = var.nimbus_user
   name          = var.nimbus_nsname
 
-  # Pick one of sc2-01-vc16, sc2-01-vc17, wdc-08-vc04, wdc-08-vc05, wdc-08-vc07, wdc-08-vc08
-  # Check slack channel #calatrava-notice for known issues
+  # Pick one of the following for the Nimbus instance vCenter
+  # sc2-01-vc16 (may have a short lease on environments)
+  # sc2-01-vc17
+  # wdc-08-vc04 (known issues at 28/04/22)
+  # wdc-08-vc05 (known issues at 28/04/22)
+  # wdc-08-vc07
+  # wdc-08-vc08
+  # Check slack channel #calatrava-notice for current known issues
   nimbus             = "REPLACE-ME"
+  # Leave this as is
   nimbus_config_file = "/mts/git/nimbus-configs/config/staging/wcp.json"
 }
 
@@ -44,8 +51,8 @@ resource "pacific_guestcluster" "gc" {
   network_servicedomain              = "cluster.local"
   topology_controlplane_class        = "best-effort-medium"
   topology_workers_class             = "best-effort-small"
-  topology_workers_count             = 6
-  topology_controlplane_count        = 1      #3 nodes are recommended for prod and stage work load for high availability and 1 for test workload
+  topology_workers_count             = 6      # At least 6 small workers required for TAP
+  topology_controlplane_count        = 1      # 3 nodes are recommended for prod and stage work load for high availability and 1 for test workload
   topology_controlplane_storageclass = pacific_nimbus_namespace.ns.default_storageclass
   topology_workers_storageclass      = pacific_nimbus_namespace.ns.default_storageclass
   storage_defaultclass               = pacific_nimbus_namespace.ns.default_storageclass

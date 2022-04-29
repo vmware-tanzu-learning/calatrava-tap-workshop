@@ -15,7 +15,7 @@ spec:
   duration: 120m
   url: https://github.com/ndwinton/calatrava-tap-workshop
   content:
-    image: harbor-repo.vmware.com/nwinton/calatrava-tap-workshop:latest
+    image: harbor-repo.vmware.com/nwinton/calatrava-tap-workshop:1.1.0
     files: "github.com/ndwinton/calatrava-tap-workshop?ref=main"
   session:
     env:

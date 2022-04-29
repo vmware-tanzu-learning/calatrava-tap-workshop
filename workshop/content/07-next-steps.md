@@ -2,7 +2,7 @@ Now you have your TAP installation on Calatrava, what should you
 be doing next?
 
 The
-[Getting started with the Tanzu Application Platform](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-getting-started.html)
+[Getting started with the Tanzu Application Platform](https://docs.vmware.com/en/Tanzu-Application-Platform/1.1/tap/GUID-getting-started.html)
 page in the product documentation is an obvious place to start.
 It walks you through some of the features of TAP and, in particular,
 getting your first app up and running.
