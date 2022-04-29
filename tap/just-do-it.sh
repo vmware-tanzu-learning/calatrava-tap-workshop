@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Execute all of the commands in the lab to set up a 'light'
+# Execute all of the commands in the lab to set up a 'full'
 # TAP install, secured with self-signed certificates.
 
 source ~/tap/environment.sh
@@ -33,7 +33,7 @@ tanzu secret registry add tap-registry \
   --export-to-all-namespaces --yes --namespace tap-install
 
 tanzu package repository add tanzu-tap-repository \
-  --url registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.0.0 \
+  --url registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:$TAP_VERSION \
   --namespace tap-install
 
 tanzu package repository get tanzu-tap-repository --namespace tap-install
@@ -44,7 +44,7 @@ cd ~/tap
 
 envsubst < https-tap-values.yaml.template > tap-values.yaml
 
-tanzu package install tap -p tap.tanzu.vmware.com -v 1.0.0 \
+tanzu package install tap -p tap.tanzu.vmware.com -v $TAP_VERSION \
   --values-file tap-values.yaml -n tap-install
 
 ./create-tap-cert.sh
@@ -81,7 +81,6 @@ else
 fi
 
 cat <<EOF | kubectl -n default apply -f -
-
 apiVersion: v1
 kind: Secret
 metadata:
@@ -91,7 +90,6 @@ metadata:
 type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: e30K
-
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -102,69 +100,62 @@ secrets:
 imagePullSecrets:
   - name: registry-credentials
   - name: tap-registry
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: default
-rules:
-- apiGroups: [source.toolkit.fluxcd.io]
-  resources: [gitrepositories]
-  verbs: ['*']
-- apiGroups: [source.apps.tanzu.vmware.com]
-  resources: [imagerepositories]
-  verbs: ['*']
-- apiGroups: [carto.run]
-  resources: [deliverables, runnables]
-  verbs: ['*']
-- apiGroups: [kpack.io]
-  resources: [images]
-  verbs: ['*']
-- apiGroups: [conventions.apps.tanzu.vmware.com]
-  resources: [podintents]
-  verbs: ['*']
-- apiGroups: [""]
-  resources: ['configmaps']
-  verbs: ['*']
-- apiGroups: [""]
-  resources: ['pods']
-  verbs: ['list']
-- apiGroups: [tekton.dev]
-  resources: [taskruns, pipelineruns]
-  verbs: ['*']
-- apiGroups: [tekton.dev]
-  resources: [pipelines]
-  verbs: ['list']
-- apiGroups: [kappctrl.k14s.io]
-  resources: [apps]
-  verbs: ['*']
-- apiGroups: [serving.knative.dev]
-  resources: ['services']
-  verbs: ['*']
-- apiGroups: [servicebinding.io]
-  resources: ['servicebindings']
-  verbs: ['*']
-- apiGroups: [services.apps.tanzu.vmware.com]
-  resources: ['resourceclaims']
-  verbs: ['*']
-- apiGroups: [scanning.apps.tanzu.vmware.com]
-  resources: ['imagescans', 'sourcescans']
-  verbs: ['*']
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: default
+  name: default-permit-deliverable
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: default
+  kind: ClusterRole
+  name: deliverable
 subjects:
   - kind: ServiceAccount
     name: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: default-permit-workload
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: workload
+subjects:
+  - kind: ServiceAccount
+    name: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+name: dev-permit-app-viewer
+roleRef:
+apiGroup: rbac.authorization.k8s.io
+kind: ClusterRole
+name: app-viewer
+subjects:
+- kind: Group
+  name: "namespace-developers"
+  apiGroup: rbac.authorization.k8s.io
+--
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+name: namespace-dev-permit-app-viewer
+roleRef:
+apiGroup: rbac.authorization.k8s.io
+kind: ClusterRole
+name: app-viewer-cluster-access
+subjects:
+- kind: Group
+  name: "namespace-developers"
+  apiGroup: rbac.authorization.k8s.io
 EOF
+
+# Create secret for Learning Center
+
+kubectl create secret tls ingress-cert -n learningcenter \
+  --key ~/tap/$DOMAIN.key --cert ~/tap/$DOMAIN.crt
 
 tanzu package installed get tap -n tap-install
 
@@ -178,10 +169,5 @@ It may take a while for packages to finish reconciling, check with
 
   tanzu package installed list -A
 
-If you subquently enble the 'full' profile, you will also
-need to add the secret for the Learning Center
-
-  kubectl create secret tls ingress-cert -n learningcenter \
-    --key ~/tap/$DOMAIN.key --cert ~/tap/$DOMAIN.crt
-
+Enjoy your TAP installation!
 EOF
