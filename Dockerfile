@@ -39,6 +39,8 @@ FROM quay.io/eduk8s/base-environment:master
 
 USER root
 
+RUN yum install -y openssl
+
 # Add our own CA root file to the trusted certs
 COPY ./.certs/VMwareRoot.crt /etc/pki/ca-trust/source/anchors
 RUN update-ca-trust

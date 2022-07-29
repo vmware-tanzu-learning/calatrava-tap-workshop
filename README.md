@@ -27,7 +27,7 @@ site using the `pivnet` CLI tool.
 
 ```bash
 export PIVNET_TOKEN="some-valid-tanzu-network-token"
-export TAP_VERSION=1.1.0
+export TAP_VERSION=1.1.0.1
 
 docker build -t harbor-repo.vmware.com/nwinton/calatrava-tap-workshop:$TAP_VERSION \
   --no-cache --build-arg PIVNET_TOKEN .
