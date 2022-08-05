@@ -395,35 +395,61 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-name: dev-permit-app-viewer
+  name: dev-permit-app-viewer
 roleRef:
-apiGroup: rbac.authorization.k8s.io
-kind: ClusterRole
-name: app-viewer
-subjects:
-- kind: Group
-  name: "namespace-developers"
   apiGroup: rbac.authorization.k8s.io
---
+  kind: ClusterRole
+  name: app-viewer
+subjects:
+  - kind: Group
+    name: default-viewers
+    apiGroup: rbac.authorization.k8s.io
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-name: namespace-dev-permit-app-viewer
+  name: default-permit-app-viewer
 roleRef:
-apiGroup: rbac.authorization.k8s.io
-kind: ClusterRole
-name: app-viewer-cluster-access
-subjects:
-- kind: Group
-  name: "namespace-developers"
   apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: app-viewer-cluster-access
+subjects:
+  - kind: Group
+    name: default-viewers
+    apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: dev-permit-app-editor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: app-editor
+subjects:
+  - kind: Group
+    name: default-developers
+    apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: default-permit-app-editor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: app-editor-cluster-access
+subjects:
+  - kind: Group
+    name: default-developers
+    apiGroup: rbac.authorization.k8s.io
 EOF
 ```
 
-That also configures the groups `namespace-developers` and
-`namespace-viewers` with access to the namespace.
+That also configures the groups `default-developers` and
+`default-viewers` with access to the namespace.
 As noted in the documentation, you can also use the
-`tanzu auth` plug-in to grant access.
+`tanzu rbac` plug-in to grant access.
 
 ### Configure LoadBalancer for Contour ingress
 
