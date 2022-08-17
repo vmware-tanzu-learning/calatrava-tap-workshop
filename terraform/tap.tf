@@ -36,8 +36,8 @@ resource "pacific_nimbus_namespace" "ns" {
 }
 
 // save kubeconfig
-resource "local_file" "sv_kubeconfig" {
-  sensitive_content = pacific_nimbus_namespace.ns.kubeconfig
+resource "local_sensitive_file" "sv_kubeconfig" {
+  content = pacific_nimbus_namespace.ns.kubeconfig
   filename          = "${path.module}/sv.kubeconfig"
   file_permission   = "0644"
 }
@@ -50,32 +50,30 @@ resource "pacific_guestcluster" "gc" {
   version                            = "v1.21.2"
   network_servicedomain              = "cluster.local"
   topology_controlplane_class        = "best-effort-medium"
-  topology_workers_class             = "best-effort-small"
-  topology_workers_count             = 6      # At least 6 small workers required for TAP
   topology_controlplane_count        = 1      # 3 nodes are recommended for prod and stage work load for high availability and 1 for test workload
   topology_controlplane_storageclass = pacific_nimbus_namespace.ns.default_storageclass
-  topology_workers_storageclass      = pacific_nimbus_namespace.ns.default_storageclass
+  topology_nodepool {
+    name = "pool-0"
+    count = 6
+    storageclass = pacific_nimbus_namespace.ns.default_storageclass
+    class = "best-effort-small"
+    volume {
+      name             = "containerd"
+      mountpath         = "/var/lib/containerd"
+      capacity_storage = "32Gi"
+    }
+    volume {
+      name             = "log"
+      mountpath         = "/var/log/containers"
+      capacity_storage = "32Gi"
+    }
+  }
   storage_defaultclass               = pacific_nimbus_namespace.ns.default_storageclass
-
-  # Container volume
-  topology_workers_volumes {
-    name             = "containerd"
-    mountpath         = "/var/lib/containerd"
-    capacity_storage = "32Gi"
-  }
-
-  # Log volume
-  topology_workers_volumes {
-    name             = "log"
-    mountpath         = "/var/log/containers"
-    capacity_storage = "32Gi"
-  }
-
 }
 
 // save kubeconfig
-resource "local_file" "gc_kubeconfig" {
-  sensitive_content = pacific_guestcluster.gc.kubeconfig
+resource "local_sensitive_file" "gc_kubeconfig" {
+  content = pacific_guestcluster.gc.kubeconfig
   filename          = "${path.module}/gc.kubeconfig"
   file_permission   = "0644"
 }
